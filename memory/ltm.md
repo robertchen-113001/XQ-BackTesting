@@ -49,6 +49,16 @@
 ## 決策與架構日誌 (Decision Logs)
 
 <!-- memory_sync.py 追加區域（勿手動修改以下內容）-->
+### [2026-03-11 15:01] PRD 02 流程架構：7 個互動 Prototype 實作完成
+
+- 流程架構 Prototype 已完整實作，共 7 個流程模組，對應 `docs/prd/02-流程架構.md`，前端入口為 `frontend/src/features/flow-architecture/FlowArchitectureDemo.jsx`（Tab 切換外殼）
+- 架構分層原則：`flowDefinitions.js` 作為純資料層，UI 元件與資料解耦
+- `ExportMenu` 下拉選單定位方案：使用 `position: fixed + getBoundingClientRect()`，可避免父層 `overflow: hidden` 造成裁切
+- `BacktestProgressPage` 動畫：`setInterval` 須搭配 `useEffect` cleanup 函式，確保元件 unmount 後計時器停止，防止記憶體洩漏
+- `FlowStepIndicator` SVG `viewBox` 依 `steps.length` 動態計算，支援 3～5 步驟，具備複用彈性
+- 條件顯示按鈕的 UX 模式：以 `opacity: 0 → 1 transition`（非 `display: none`）實現條件渲染，保留版面空間並提供視覺過渡
+- PRD 連動前端的標準做法：PRD 文件（`docs/prd/`）各流程段落補充「元件路徑 ref 標記」，維持文件與程式碼的可追溯性
+
 ### [2026-03-11 13:38] Vite 前端原型建立：架構決策與技術快照
 
 - 專案採用 Vite + React 18 + React Router v6（JSX，非 TypeScript）架構，入口為 `frontend/src/main.jsx`，使用 `createRoot` 初始化

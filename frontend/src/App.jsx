@@ -4,6 +4,7 @@ import SidebarTree from './components/SidebarTree'
 import TabBar from './components/TabBar'
 import MonitorTab from './components/MonitorTab'
 import ReportView from './components/ReportView'
+import FlowArchitectureDemo from './features/flow-architecture/FlowArchitectureDemo'
 import { folderTree, monitorList } from './data/mockData'
 
 export default function App() {
@@ -13,6 +14,7 @@ export default function App() {
     { id: 'rep-1', label: '自動交易DIF-MACD', closable: true },
     { id: 'rep-2', label: 'KD低檔黃金交叉', closable: true },
     { id: 'compare-1', label: '回測比較-1', closable: true },
+    { id: 'flow-demo', label: '⬡ 流程示意圖', closable: false },
   ])
 
   const closeTab = (tabId) => {
@@ -56,7 +58,7 @@ export default function App() {
                 onOpenReport={openReport}
               />
             )}
-            {activeTabId !== 'monitor' && activeTabId !== 'compare-1' && (
+            {activeTabId !== 'monitor' && activeTabId !== 'compare-1' && activeTabId !== 'flow-demo' && (
               <ReportView reportId={activeTabId} />
             )}
             {activeTabId === 'compare-1' && (
@@ -64,6 +66,7 @@ export default function App() {
                 回測比較功能（規劃中）
               </div>
             )}
+            {activeTabId === 'flow-demo' && <FlowArchitectureDemo />}
           </div>
         </div>
       </div>
