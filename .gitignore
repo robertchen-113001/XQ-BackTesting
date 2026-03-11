@@ -1,0 +1,8 @@
+frontend/node_modules/
+/venv/
+.DS_Store
+.env
+docs/reference/
+.claude/commands/
+agent_tasks.md
+memory/stm.md

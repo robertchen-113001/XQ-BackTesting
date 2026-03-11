@@ -1,0 +1,232 @@
+/* ===== CSS 變數（設計令牌）===== */
+:root {
+  --color-bg: #f0f2f5;
+  --color-surface: #ffffff;
+  --color-border: #e8e8e8;
+  --color-border-strong: #d0d0d0;
+  --color-primary: #1677ff;
+  --color-primary-light: #e6f4ff;
+  --color-primary-hover: #0958d9;
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #666666;
+  --color-text-tertiary: #999999;
+  --color-profit: #cf1322;   /* 台股：紅色為獲利 */
+  --color-loss: #389e0d;     /* 台股：綠色為虧損 */
+  --color-profit-bg: #fff1f0;
+  --color-loss-bg: #f6ffed;
+  --color-warn: #fa8c16;
+  --color-sidebar-bg: #fafafa;
+  --color-header-bg: #ffffff;
+  --color-tab-active: #1677ff;
+  --color-progress-bg: #e8e8e8;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 2px 8px rgba(0,0,0,0.12);
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-base: 13px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 32px;
+}
+
+/* ===== 全域重設 ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Microsoft JhengHei', 'Segoe UI', sans-serif;
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  background: var(--color-bg);
+  line-height: 1.5;
+  overflow: hidden;
+  height: 100vh;
+}
+
+#root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== 共用元件 ===== */
+button {
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  padding: 3px 10px;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+button:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+button.primary {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+
+button.primary:hover {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  color: #fff;
+}
+
+select {
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  padding: 3px 8px;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  height: 26px;
+}
+
+input[type="text"] {
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 3px 8px;
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+  outline: none;
+  height: 26px;
+}
+
+input[type="text"]:focus {
+  border-color: var(--color-primary);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+
+th {
+  background: #fafafa;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  border-bottom: 1px solid var(--color-border);
+  padding: 8px 10px;
+  text-align: left;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+td {
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+
+tr:hover td {
+  background: #f8f9ff;
+}
+
+/* ===== 工具類 ===== */
+.text-profit { color: var(--color-profit); font-weight: 500; }
+.text-loss { color: var(--color-loss); font-weight: 500; }
+.text-secondary { color: var(--color-text-secondary); }
+.text-tertiary { color: var(--color-text-tertiary); }
+.text-primary-color { color: var(--color-primary); cursor: pointer; }
+.text-primary-color:hover { text-decoration: underline; }
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+.text-sm { font-size: var(--font-size-sm); }
+.text-xs { font-size: var(--font-size-xs); }
+.font-bold { font-weight: 600; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 7px;
+  border-radius: 10px;
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+}
+
+.badge-profit { background: var(--color-profit-bg); color: var(--color-profit); }
+.badge-loss { background: var(--color-loss-bg); color: var(--color-loss); }
+.badge-blue { background: var(--color-primary-light); color: var(--color-primary); }
+
+/* ===== 進度條 ===== */
+.progress-bar {
+  height: 6px;
+  background: var(--color-progress-bg);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+/* ===== 卡片 ===== */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+}
+
+/* ===== 圖表佔位 ===== */
+.chart-placeholder {
+  background: #f8f9fa;
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-sm);
+  gap: 8px;
+}
+
+.chart-placeholder svg {
+  opacity: 0.4;
+}
+
+/* ===== 滾動條 ===== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d0d0d0;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b0b0b0;
+}
