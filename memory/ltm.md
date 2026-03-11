@@ -49,6 +49,23 @@
 ## 決策與架構日誌 (Decision Logs)
 
 <!-- memory_sync.py 追加區域（勿手動修改以下內容）-->
+### [2026-03-11 15:45] 前端架構重構：7 PRD Tab + PRD02 改為純 SVG CFD/DFD
+
+- 前端鏡像原則落實：頂層 Tab 結構固定為 7 個（`prd-01` ～ `prd-07`），對應 7 份 PRD 文件，`closable: false`，移除動態 Tab 邏輯
+- PRD05 例外處理：`activeTabId === 'prd-05'` 時渲染完整 `ReportInterfacePage`（含 SidebarTree + 內部動態 Tab），其餘 PRD 頁面為靜態展示
+- PRD02 圖形策略：使用純 SVG 實作 CFD（系統情境圖）與 DFD（Level-1 資料流圖），無需新增 npm 依賴；SVG 內使用 inline hex 色碼，外部元件使用 `var(--color-*)` 變數
+- 舊元件歸檔策略：過期互動元件移至 `_archive/` 子目錄保留歷史，不直接刪除
+- CSS 規範確立：全程使用 CSS 變數 `var(--color-*)`，僅 SVG inline 樣式允許直接寫 hex 值
+- 各 PRD Feature 模組職責對應：
+  - `prd01`：MoSCoW 表 + 適用範圍
+  - `prd02`：CFD/DFD 兩子頁籤容器
+  - `prd03`：來源說明、統一格式欄位表、匯入規格
+  - `prd04`：三平台設定 Tab、通用交易設定表格
+  - `prd05`：完整 SidebarTree + TabBar + Monitor（從 App.jsx 搬移）
+  - `prd06`：匯出格式表、XLSX 11 分頁清單、模擬下拉選單
+  - `prd07`：計算公式分組展示、每日報表欄位表
+- 待確認：舊 `features/flow-architecture/`（非 `_archive/` 版本）是否有殘留檔案，需使用者確認後決定是否清除
+
 ### [2026-03-11 15:01] PRD 02 流程架構：7 個互動 Prototype 實作完成
 
 - 流程架構 Prototype 已完整實作，共 7 個流程模組，對應 `docs/prd/02-流程架構.md`，前端入口為 `frontend/src/features/flow-architecture/FlowArchitectureDemo.jsx`（Tab 切換外殼）
