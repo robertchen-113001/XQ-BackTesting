@@ -1,8 +1,6 @@
-# Per-K-bar Timeout 設計討論（會議版）
+# Timeout 設計討論
 
-**背景**：`Probe Phase 設計.md` 的「長期方向」提出以 **Per-K-bar Timeout** 取代整體 2 分鐘 timeout。本文件聚焦在實作時各子系統的設計決策。
-
-**來源文件**：`根本解法_回測執行時間預估模型_討論.md`
+**背景**：Probe Phase 的「長期方向」提出以 **Per-K-bar Timeout** 取代整體 2 分鐘 timeout。本文件聚焦在實作時各子系統的設計決策。
 
 ---
 
@@ -26,7 +24,7 @@ effective_threshold = min(第 2 高暖機耗時 × 1.5, admin_hard_limit)
 | :--- | :--- | :--- |
 | **基準值** | 暖機 N 筆中第 2 高耗時 | 排除最高 1 筆（可能是初始化異常），用剩下最重的情況 |
 | **緩衝乘數** | × 1.5 | 第 2 高已接近實際尖峰，乘數不需太大 |
-| **admin_hard_limit** | **30 秒/棒**（建議初始值）| 全域最後防線，正常策略 per-bar 通常在毫秒～幾秒 |
+| **admin_hard_limit** | **30 秒/棒**（建議初始值）| 全域最後防線，正常策略 per-K-bar 通常在毫秒～幾秒 |
 
 - **為什麼不用 avg × 2**：訊號觸發棒的計算量可能是一般棒的數倍，平均值會低估尖峰，易誤殺
 
@@ -74,7 +72,7 @@ flowchart TD
 
 ### 執行模型前提
 
-每台機器可同時跑**多個商品**（concurrency = 每台機器同時執行的商品數）。Probe Phase 的 `safe_concurrency = floor(120s / p95_time)` 就是在算這個值。
+每台機器可同時跑**多個商品**（concurrency = 每台機器同時執行的商品數）。
 
 ### 具體範例（100 個商品、5 台機器可用）
 
@@ -91,7 +89,7 @@ flowchart TD
 - 商品 < 20 筆時 P95 統計意義有限，退化為以最大值估算
 
 > **為什麼有了 Watchdog 還需要管 concurrency？**
-> 每台機器的 CPU / 記憶體有限，同時跑太多商品會互相搶資源，導致每個商品的 per-bar 耗時拉長，甚至可能觸發 Watchdog 誤殺。控制 concurrency 是為了讓每個商品有足夠的計算資源。
+> 每台機器的 CPU / 記憶體有限，同時跑太多商品會互相搶資源，導致每個商品的 per-K-bar 耗時拉長，甚至可能觸發 Watchdog 誤殺。控制 concurrency 是為了讓每個商品有足夠的計算資源。
 
 ### Phase 2
 
@@ -99,7 +97,6 @@ flowchart TD
 
 **待討論**：
 - Phase 1 的預設 concurrency 應設多少？（保守起見從低開始？還是從高開始再動態下調？）
-- Phase 1 排程器在「第一個商品完成前」沒有 P95 資料，如何決定初始 concurrency？
 
 ---
 
@@ -142,7 +139,7 @@ rolling_ETA = 已完成商品平均耗時 × 剩餘商品數
 
 ```
 快取 key = strategy_checksum + symbol + timeframe
-快取值 = 該商品的 per-bar 暖機數據 + elapsed_sec
+快取值 = 該商品的 per-K-bar 暖機數據 + elapsed_sec
 ```
 
 | 情境 | 原始設計（batch-level） | 建議設計（per-instrument） |
@@ -203,7 +200,7 @@ rolling_ETA = 已完成商品平均耗時 × 剩餘商品數
 
 ### 受乘數影響的資源
 
-- **`effective_threshold`**（per-bar Watchdog 門檻）：依乘數等比放大
+- **`effective_threshold`**（per-K-bar Watchdog 門檻）：依乘數等比放大
 - **暖機保底門檻**（原 60 秒）：依乘數等比放大
 - **Concurrency**：retry 商品降低並行數，減少 CPU / 記憶體競爭（隔離資源，提高該商品可用算力）
 
@@ -238,25 +235,25 @@ flowchart TD
 
 ### 兩級資源對照
 
-| 層級 | per-bar hard limit | max_retry |
+| 層級 | per-K-bar hard limit | max_retry |
 | :--- | :---: | :---: |
-| 一般使用者（基準） | 30 秒/棒 | 3 次 |
+| 一般使用者 | 30 秒/棒 | 3 次 |
 | VIP | 60 秒/棒 | 5 次 |
 
 ### 可動用的資源維度
 
-| 資源 | 現有設計（一般使用者基準） | VIP 調整方式 |
+| 資源 | 一般使用者 | VIP 調整方式 |
 | :--- | :--- | :--- |
-| `admin_hard_limit`（per-bar 全域上限） | 30 秒，全域統一值 | VIP 專屬上限 60 秒，由 admin 後台管理（使用者無法自行調整） |
+| `admin_hard_limit`（per-） | 30 秒，全域統一值 | VIP 專屬上限 60 秒，由 admin 後台管理（使用者無法自行調整） |
 | `max_retry` | 3 次 | 5 次，享有更多接續機會 |
 | Concurrency slot 優先度 | 動態 P95 調整（討論②） | VIP 優先填入 available concurrency slot |
-| 機器分配 | 現有排程不動 | VIP 優先派到低負載機器（現有 VIP 權重邏輯已有此機制，不需額外修改） |
+| 機器分配 | 現有排程不動 | VIP 優先派到低負載機器 |
 
 ### 架構設計方式
 
 - `admin_hard_limit` 由全域單一值改為「由 admin 後台管理的 per-tier 設定」，系統根據使用者層級查表取對應值
-- 排程器派送商品時，VIP 優先填入 available concurrency slot（擴充現有 VIP 權重邏輯）
-- per-bar timeout 與 retry 層面新增 VIP 差異後，現有排程邏輯其餘部分不動
+- 排程器派送商品時，VIP 優先填入 available concurrency slot
+- per-K-bar timeout 與 retry 層面新增 VIP 差異後，現有排程邏輯其餘部分不動
 
 **待討論**：
 - VIP 的 hard limit 提高（60s）是否需要配合 concurrency 隔離，以避免影響同機器上的一般使用者商品？（尚未決定）
