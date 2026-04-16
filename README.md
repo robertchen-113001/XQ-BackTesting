@@ -20,10 +20,11 @@
 
 1. **統一回測計算算法**：確保各平台（選股中心、策略雷達、自動交易、量化積木、因子投資、LocalBella）使用相同的計算邏輯
 2. **統一回測 UI**：選股中心、策略雷達、自動交易三平台共用回測報告介面
-3. **支援多種交易數量模式**：原始、等額、等量、等比
-4. **支援兩種報酬率算法**：時間加權報酬率、最大投入報酬率
-5. **支援匯入交易紀錄**：從 CSV 或 BTReportNew 格式匯入
-6. **強化分析功能**：週期分析、因子分析
+3. **支援多種交易數量模式**：腳本、等額、等量、等比
+4. **支援三種報酬率算法**：時間加權報酬率（TWRR）、最大投入報酬率（MIR）、金額加權報酬率（MWRR）
+5. **提供資本倍數指標（MOIC）**：作為整體統計的固定欄位（不適用等比模式）
+6. **支援匯入交易紀錄**：從 CSV 或 BTReportNew 格式匯入
+7. **強化分析功能**：週期分析、因子分析
 
 ---
 
@@ -46,10 +47,7 @@
 WorkSpace/
 ├── README.md               ← 本文件（快速導讀）
 ├── CLAUDE.md               ← AI 助理行為規範（Claude Code 專用）
-├── agent_tasks.md          ← AI 任務清單
 ├── docs/
-│   ├── Sitemap.md          ← 整體專案規劃與架構圖
-│   ├── core.md             ← 專案核心架構與願景（唯讀）
 │   ├── prd/                ← 各功能 PRD 文件
 │   │   ├── 01-概述與適用範圍.md
 │   │   ├── 02-流程架構.md
@@ -58,33 +56,23 @@ WorkSpace/
 │   │   ├── 05-回測報告介面.md
 │   │   ├── 06-匯出功能.md
 │   │   └── 07-欄位計算.md
-│   └── reference/
-│       └── pdf-convert/    ← 原始手寫 Spec（唯讀）
-├── memory/
-│   ├── core.md             ← AI 行為準則與專案大腦
-│   ├── ltm.md              ← 術語字典與決策日誌
-│   └── stm.md              ← 工作階段暫存區
-├── frontend/               ← Vite + React 18 Prototype（待建立）
-└── scripts/                ← 自動化 Python 腳本
+└── web/                    ← Prototype
 ```
 
 ---
 
 ## 如何開始
 
-### 閱讀順序（新人）
+### 閱讀順序
 
-1. 先看 `docs/core.md` — 了解專案核心架構與不可更動的原則
-2. 再看 `docs/Sitemap.md` — 了解整體功能規劃
-3. 然後依需求查閱 `docs/prd/` 下對應功能的 PRD 文件
+1. 先看 `CLAUDE.md` — 了解專案核心架構與不可更動的原則
+2. 然後依需求查閱 `docs/prd/` 下對應功能的 PRD 文件
 
 ### 啟動前端 Prototype
 
 ```bash
-cd frontend && npm run dev
+cd web && npm run dev
 ```
-
-> ⚠️ Frontend Prototype 目前尚未建立，請參考各 PRD 文件中的「前端 Prototype 規劃」章節。
 
 ---
 
@@ -109,6 +97,81 @@ cd frontend && npm run dev
 - **對應原則**：一份 PRD 對應一個前端 Feature 模組
 
 各 PRD 中的「📐 前端 Prototype 規劃（Vite）」章節記錄了元件名稱、功能說明與實作建議。
+
+---
+
+## 系統架構
+
+### 整體架構
+
+```mermaid
+graph TD
+    Entry["回測報告入口<br>XQ → 策略(D) → 回測報告"]
+    Entry --> Monitor["回測監控 Tab<br>（固定，不可關閉）"]
+    Entry --> Report["回測報告 Tab<br>（可多開、可獨立視窗）"]
+    Entry --> Compare["回測比較 Tab<br>（可多開、可獨立視窗）"]
+
+    Report --> Sticky["置頂區<br>交易數量 / 報酬率算法 / 數據篩選"]
+    Sticky --> T1["整體統計"]
+    Sticky --> T2["交易統計"]
+    Sticky --> T3["週期分析"]
+    Sticky --> T4["因子分析"]
+    Sticky --> T5["商品與交易"]
+    Sticky --> T6["交易設定"]
+
+    style Entry fill:#4f46e5,color:#fff
+    style Monitor fill:#0891b2,color:#fff
+    style Report fill:#059669,color:#fff
+    style Compare fill:#d97706,color:#fff
+```
+
+### 資料流架構
+
+```mermaid
+flowchart TD
+    Source["資料來源"]
+    Source --> XS["XS 產生（選股中心 / 策略雷達 / 自動交易 / 量化積木）"]
+    Source --> Factor["因子投資"]
+    Source --> Local["LocalBella"]
+    Source --> Import["使用者匯入（CSV / BTReportNew）"]
+
+    XS --> Stats["報表統計服務"]
+    Factor --> Stats
+    Local --> Stats
+    Import --> Stats
+
+    Stats --> WebUI["回測報告 Web UI"]
+    WebUI --> User["使用者"]
+```
+
+### 前端模組規劃
+
+| 模組 | 主要元件 | 對應 PRD |
+|------|---------|---------|
+| 進入點 | `BacktestReportApp.jsx` | PRD 05 |
+| 回測監控 | `BacktestMonitorList.jsx` | PRD 05 |
+| 目錄管理 | `SidebarTree.jsx` | PRD 05 |
+| 置頂區 | `StickyHeader.jsx` | PRD 05 |
+| 整體統計 | `OverallStatsTab.jsx` | PRD 05 |
+| 交易統計 | `TradeStatsTab.jsx` | PRD 05 |
+| 週期分析 | `PeriodAnalysisTab.jsx` | PRD 05 |
+| 因子分析 | `FactorAnalysisTab.jsx` | PRD 05 |
+| 商品與交易 | `ProductTradeTab.jsx` | PRD 05 |
+| 交易設定 | `TradeConfigTab.jsx` | PRD 05 |
+| 匯出選單 | `ExportMenu.jsx` | PRD 06 |
+| 匯入對話框 | `ImportDialog.jsx` | PRD 03 |
+| 系統設定 | `SystemParamsPanel.jsx` | PRD 04 |
+
+### 版本規劃
+
+| 版本 | 範圍 | 狀態 |
+|------|------|------|
+| v1.0 | 核心回測流程、基本 UI、整體統計、交易設定 | 規劃中 |
+| v1.1 | 交易統計、週期分析 | 規劃中 |
+| v1.2 | 因子分析、商品與交易進階功能 | 規劃中 |
+| v2.0 | 回測比較功能 | 規劃中 |
+
+> 詳細 Tab 功能說明請參考 [`docs/Sitemap.md`](./docs/Sitemap.md)
 
 ---
 
