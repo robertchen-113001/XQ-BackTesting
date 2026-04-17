@@ -1,42 +1,104 @@
-const IMAGES = [
-  { src: '/images/backtest-settings/_page_5_Figure_2.jpeg', label: '回測設定截圖（頁 5）' },
-  { src: '/images/backtest-settings/_page_6_Figure_1.jpeg', label: '回測設定截圖（頁 6 — 圖 1）' },
-  { src: '/images/backtest-settings/_page_6_Figure_3.jpeg', label: '回測設定截圖（頁 6 — 圖 2）' },
-  { src: '/images/backtest-settings/_page_7_Figure_1.jpeg', label: '回測設定截圖（頁 7）' },
+import { useState } from 'react'
+import SystemParamsPanel from './SystemParamsPanel'
+import LaunchBacktestDialog from './dialog/LaunchBacktestDialog'
+
+const MAIN_TABS = [
+  { id: 'system-params', label: '§2 系統參數設定', desc: 'S → K → P → R，三平台各自獨立儲存的全域預設值' },
+  { id: 'dialog', label: '§3 執行回測對話框', desc: '每次啟動回測時的當次設定，帶入系統參數預設值' },
 ]
 
 export default function BacktestSettingsPage() {
-  return (
-    <div style={{ padding: '32px', maxWidth: 960, margin: '0 auto' }}>
-      <h2 style={{ fontSize: 20, fontWeight: 700, color: 'var(--color-text)', marginBottom: 6 }}>
-        PRD 04 — 回測設定
-      </h2>
-      <p style={{ color: 'var(--color-text-secondary)', marginBottom: 32, fontSize: 14 }}>
-        以下為 Spec 原始截圖，涵蓋各平台回測參數設定規格。
-      </p>
+  const [tab, setTab] = useState('system-params')
 
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 32 }}>
-        {IMAGES.map((img, i) => (
-          <div key={img.src} style={{
-            background: 'var(--color-surface)', borderRadius: 8,
-            border: '1px solid var(--color-border)',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-            padding: 20, width: '100%', maxWidth: 900, boxSizing: 'border-box',
-          }}>
-            <img
-              src={img.src}
-              alt={img.label}
-              style={{ display: 'block', maxWidth: '100%', margin: '0 auto' }}
-            />
-            <p style={{
-              textAlign: 'center', marginTop: 10, fontSize: 12,
-              color: 'var(--color-text-secondary)',
-            }}>
-              {i + 1}／{IMAGES.length}　{img.label}
-            </p>
-          </div>
+  return (
+    <div style={s.page}>
+      {/* 頁面標題 */}
+      <div style={s.pageHeader}>
+        <h2 style={s.pageTitle}>PRD 04 — 回測設定</h2>
+        <p style={s.pageDesc}>
+          設定流向：① 系統參數（全域預設）→ ② 執行回測對話框（每次微調）→ ③ 報告 Tab 6 顯示本次參數
+        </p>
+      </div>
+
+      {/* 主 Tab 切換 */}
+      <div style={s.tabBar}>
+        {MAIN_TABS.map(t => (
+          <button
+            key={t.id}
+            onClick={() => setTab(t.id)}
+            style={{
+              ...s.tabBtn,
+              borderBottom: tab === t.id ? '2px solid var(--color-primary)' : '2px solid transparent',
+              color: tab === t.id ? 'var(--color-primary)' : 'var(--color-text-secondary)',
+              fontWeight: tab === t.id ? 600 : 400,
+              background: tab === t.id ? 'var(--color-surface)' : 'transparent',
+            }}
+          >
+            {t.label}
+          </button>
         ))}
+      </div>
+
+      {/* Tab 說明 */}
+      <div style={s.tabDesc}>
+        {MAIN_TABS.find(t => t.id === tab)?.desc}
+      </div>
+
+      {/* 內容 */}
+      <div style={s.content}>
+        {tab === 'system-params' && <SystemParamsPanel />}
+        {tab === 'dialog' && <LaunchBacktestDialog />}
       </div>
     </div>
   )
+}
+
+const s = {
+  page: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    overflow: 'hidden',
+    background: 'var(--color-bg)',
+  },
+  pageHeader: {
+    padding: '16px 24px 0',
+    background: 'var(--color-surface)',
+    borderBottom: '1px solid var(--color-border)',
+  },
+  pageTitle: {
+    fontSize: 18,
+    fontWeight: 700,
+    color: 'var(--color-text)',
+    margin: '0 0 4px 0',
+  },
+  pageDesc: {
+    fontSize: 13,
+    color: 'var(--color-text-secondary)',
+    margin: '0 0 12px 0',
+  },
+  tabBar: {
+    display: 'flex',
+    background: 'var(--color-surface)',
+    borderBottom: '1px solid var(--color-border)',
+    paddingLeft: 24,
+  },
+  tabBtn: {
+    padding: '8px 20px',
+    fontSize: 13,
+    border: 'none',
+    cursor: 'pointer',
+    transition: 'all 0.15s',
+  },
+  tabDesc: {
+    padding: '6px 24px',
+    fontSize: 12,
+    color: 'var(--color-text-secondary)',
+    background: '#fafafa',
+    borderBottom: '1px solid var(--color-border)',
+  },
+  content: {
+    flex: 1,
+    overflow: 'auto',
+  },
 }
