@@ -5,3 +5,5 @@ web/dist/
 .env
 docs/reference/
 tasks.md
+docs/prd/*
+!docs/prd/04-回測設定.md

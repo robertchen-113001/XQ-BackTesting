@@ -20,18 +20,6 @@ export default function LeverageSection({ form, onChange }) {
             }} />
           <span style={s.unit}>%</span>
         </div>
-        <div style={{ ...s.row, opacity: 0.5 }}>
-          <label style={s.label}>股票融資成數</label>
-          <input type="number" value={form.stockFinancingRate} disabled style={{ ...s.numInput, background: '#f5f5f5', color: '#aaa' }} />
-          <span style={s.unit}>%</span>
-          <span style={s.tag}>UI 保留，暫不使用</span>
-        </div>
-        <div style={{ ...s.row, opacity: 0.5 }}>
-          <label style={s.label}>股票融券保證金</label>
-          <input type="number" value={form.stockMarginRate} disabled style={{ ...s.numInput, background: '#f5f5f5', color: '#aaa' }} />
-          <span style={s.unit}>%</span>
-          <span style={s.tag}>UI 保留，暫不使用</span>
-        </div>
       </div>
     </fieldset>
   )

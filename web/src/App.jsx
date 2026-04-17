@@ -5,9 +5,7 @@ import FlowArchitecturePage from './features/prd02-flow-architecture/FlowArchite
 import BacktestSettingsPage from './features/prd04-backtest-settings/BacktestSettingsPage'
 
 const PRD_TABS = [
-  { id: 'prd-02', label: 'PRD 02 流程架構' },
   { id: 'prd-04', label: 'PRD 04 回測設定' },
-  { id: 'prd-05', label: 'PRD 05 報告介面' },
 ]
 
 function TabBar({ activeTabId, onSelect }) {
@@ -34,21 +32,16 @@ function TabBar({ activeTabId, onSelect }) {
 }
 
 export default function App() {
-  const [activeTabId, setActiveTabId] = useState('prd-05')
+  const [activeTabId, setActiveTabId] = useState('prd-04')
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: 'var(--color-bg)' }}>
       <AppHeader />
       <TabBar activeTabId={activeTabId} onSelect={setActiveTabId} />
       <div style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-        {activeTabId === 'prd-05' ? (
-          <ReportInterfacePage />
-        ) : (
-          <div style={{ flex: 1, overflow: 'auto' }}>
-            {activeTabId === 'prd-02' && <FlowArchitecturePage />}
-            {activeTabId === 'prd-04' && <BacktestSettingsPage />}
-          </div>
-        )}
+        <div style={{ flex: 1, overflow: 'auto' }}>
+          {activeTabId === 'prd-04' && <BacktestSettingsPage />}
+        </div>
       </div>
     </div>
   )

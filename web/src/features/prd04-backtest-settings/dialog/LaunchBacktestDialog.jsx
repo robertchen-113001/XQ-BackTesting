@@ -60,13 +60,15 @@ export default function LaunchBacktestDialog() {
           <span style={s.dialogTitleText}>{PLATFORM_TITLES[platform]}</span>
         </div>
 
-        {/* 基本執行設定（全寬） */}
-        <div style={s.section}>
+        {/* 基本執行設定（全寬）— 僅供檢視 */}
+        <div style={{ ...s.section, ...s.staticSection }}>
+          <span style={s.staticBadge}>僅供檢視</span>
           <BasicExecutionSection platform={platform} form={form} onChange={onChange} />
         </div>
 
-        {/* 平台差異：進出場 / 交易腳本 */}
-        <div style={s.section}>
+        {/* 平台差異：進出場 / 交易腳本 — 僅供檢視 */}
+        <div style={{ ...s.section, ...s.staticSection }}>
+          <span style={s.staticBadge}>僅供檢視</span>
           {platform === '選股中心' && (
             <StockScreenerEntryExit form={form} onChange={onChange} />
           )}
@@ -89,9 +91,12 @@ export default function LaunchBacktestDialog() {
           </div>
         </div>
 
-        {/* 底部：系統設定 + 按鈕 */}
+        {/* 底部：系統設定（僅供檢視）+ 按鈕 */}
         <div style={s.footer}>
-          <SystemSettingsSection form={form} onChange={onChange} />
+          <div style={s.staticSection}>
+            <span style={s.staticBadge}>僅供檢視</span>
+            <SystemSettingsSection form={form} onChange={onChange} />
+          </div>
           <div style={s.footerBtns}>
             <button style={s.btnPrimary}>開始回測</button>
             <button style={s.btnSecondary}>取消</button>
@@ -163,6 +168,23 @@ const s = {
   footerBtns: { display: 'flex', gap: 8 },
   btnPrimary: { padding: '6px 20px', fontSize: 13, background: 'var(--color-primary)', color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer', fontWeight: 600 },
   btnSecondary: { padding: '6px 16px', fontSize: 13, background: 'var(--color-surface)', color: 'var(--color-text)', border: '1px solid var(--color-border)', borderRadius: 4, cursor: 'pointer' },
+  staticSection: {
+    pointerEvents: 'none',
+    opacity: 0.6,
+    background: '#f9f9f9',
+    position: 'relative',
+  },
+  staticBadge: {
+    position: 'absolute',
+    top: 8,
+    right: 12,
+    fontSize: 10,
+    background: '#e0e0e0',
+    color: '#666',
+    padding: '1px 6px',
+    borderRadius: 3,
+    zIndex: 1,
+  },
   summary: { marginTop: 8 },
   summaryToggle: { fontSize: 12, color: 'var(--color-text-secondary)', background: 'none', border: 'none', cursor: 'pointer', padding: 0 },
   summaryPre: { fontSize: 12, background: '#f5f5f5', padding: '8px 12px', borderRadius: 4, color: 'var(--color-text-secondary)', marginTop: 4, lineHeight: 1.8 },

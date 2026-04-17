@@ -159,6 +159,9 @@ export default function SystemParamsPanel() {
             >
               {OVERLAY_OPTIONS.map(o => <option key={o} value={o}>{o}</option>)}
             </select>
+            {cur.overlayIndex1 === '自選商品' && (
+              <span style={styles.overlayHint}>→ 開啟 XQ 商品搜尋框</span>
+            )}
           </div>
           <div style={styles.row}>
             <label style={styles.label}>第二疊加</label>
@@ -169,9 +172,12 @@ export default function SystemParamsPanel() {
             >
               {OVERLAY_OPTIONS.map(o => <option key={o} value={o}>{o}</option>)}
             </select>
+            {cur.overlayIndex2 === '自選商品' && (
+              <span style={styles.overlayHint}>→ 開啟 XQ 商品搜尋框</span>
+            )}
           </div>
           <p style={styles.hint}>
-            選「基準指標」時自動帶入上方設定的標的；選「任意標的」時需另行輸入商品代碼。
+            選「基準指標」時自動帶入上方設定的標的；選「自選商品」時系統彈出 XQ 商品搜尋框，選取後自動回填。
             績效比較圖最多疊加兩個指標。
           </p>
           {(cur.overlayIndex1 === '基準指標' || cur.overlayIndex2 === '基準指標') && (
@@ -269,5 +275,10 @@ const styles = {
     color: 'var(--color-text-secondary)',
     margin: '4px 0 0 0',
     lineHeight: 1.5,
+  },
+  overlayHint: {
+    fontSize: 12,
+    color: 'var(--color-primary)',
+    marginLeft: 8,
   },
 }

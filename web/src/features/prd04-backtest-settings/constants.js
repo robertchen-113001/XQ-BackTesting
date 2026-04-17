@@ -62,8 +62,8 @@ export const BENCHMARK_INDICES = [
 export const OVERLAY_OPTIONS = [
   '不疊加',
   '基準指標',
-  '投組買進持有報酬率',
-  '任意標的',
+  '買進持有報酬率',
+  '自選商品',
 ]
 
 // 系統參數預設值（三平台各自獨立）
