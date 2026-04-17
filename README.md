@@ -83,8 +83,8 @@ cd web && npm run dev
 | [01-概述與適用範圍](./docs/prd/01-概述與適用範圍.md) | 專案目標、適用平台、利害關係人 |
 | [02-流程架構](./docs/prd/02-流程架構.md) | 回測流程、逾期處理、重新回測、失敗 Retry、匯出、手動上傳 |
 | [03-交易紀錄](./docs/prd/03-交易紀錄.md) | 資料來源、交易數量規則、統一格式、CSV 匯入規格 |
-| [04-回測設定](./docs/prd/04-回測設定.md) | 系統參數、資金管理、交易數量類型、交易成本、平台差異 |
-| [05-回測報告介面](./docs/prd/05-回測報告介面.md) | UI 架構、置頂區、各分析 Tab（整體統計、交易統計、週期分析、因子分析、商品與交易、交易設定）|
+| [04-回測設定](./docs/prd/04-回測設定.md) | 系統參數（S→K→P→R）、執行回測對話框（三平台共用模組 + 差異模組 + 欄位字典）、報告 Tab 6 顯示參數 |
+| [05-回測報告介面](./docs/prd/05-回測報告介面.md) | UI 架構、置頂區、各分析 Tab（整體統計、交易統計、週期分析、因子分析、商品與交易；交易設定 Tab 細節見 PRD 04 §4）|
 | [06-匯出功能](./docs/prd/06-匯出功能.md) | CSV 匯出、XLSX 完整匯出、各分頁格式規格 |
 | [07-欄位計算](./docs/prd/07-欄位計算.md) | 所有欄位的計算公式（含等比模式特殊規格）|
 
@@ -157,10 +157,11 @@ flowchart TD
 | 週期分析 | `PeriodAnalysisTab.jsx` | PRD 05 |
 | 因子分析 | `FactorAnalysisTab.jsx` | PRD 05 |
 | 商品與交易 | `ProductTradeTab.jsx` | PRD 05 |
-| 交易設定 | `TradeConfigTab.jsx` | PRD 05 |
+| 交易設定（Tab 6）| `TradeConfigTab.jsx` | PRD 04 |
 | 匯出選單 | `ExportMenu.jsx` | PRD 06 |
 | 匯入對話框 | `ImportDialog.jsx` | PRD 03 |
-| 系統設定 | `SystemParamsPanel.jsx` | PRD 04 |
+| 系統參數 | `SystemParamsPanel.jsx` | PRD 04 |
+| 執行回測對話框 | `LaunchBacktestDialog.jsx` | PRD 04 |
 
 ### 版本規劃
 
