@@ -6,4 +6,5 @@ web/dist/
 docs/reference/
 tasks.md
 docs/prd/*
+!docs/prd/03-交易紀錄.md
 !docs/prd/04-回測設定.md
