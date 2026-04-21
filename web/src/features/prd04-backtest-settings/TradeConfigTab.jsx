@@ -166,7 +166,7 @@ export default function TradeConfigTab() {
 
       {/* ── Prototype 說明欄（實際實作時移除）── */}
       <div style={s.prototypeNotice}>
-        <strong>Prototype 模式</strong>：切換平台觀察置頂區 tag 列、左側腳本設定（含 AT 安全監控）、右側交易設定的條件渲染差異。
+        <strong>Prototype 模式</strong>：切換平台觀察置頂區 tag 列、左側腳本設定、右側交易設定（自動交易底部顯示安全監控）的條件渲染差異。
         實際實作時，platform 由 <code>report.platform</code> 決定，不需此切換器。
         <div style={{ marginTop: 6, display: 'flex', gap: 8 }}>
           {['選股中心', '策略雷達', '自動交易'].map(p => (
@@ -210,8 +210,9 @@ export default function TradeConfigTab() {
           <ExecutionDataPanel report={report} />
         </div>
 
-        {/* 右欄：交易設定（費用 / 進場順序 / 保證金 / 同時持有）
-         * 交易數量 + 報酬率算法已移至置頂區，自動交易安全監控已移至左欄。
+        {/* 右欄：交易設定（費用 / 進場順序 / 保證金 / 同時持有 / 安全監控）
+         * 交易數量 + 報酬率算法已移至置頂區。
+         * 自動交易安全監控移至此欄底部（report.platform === '自動交易' 條件顯示）。
          */}
         <div style={s.panel}>
           <TradeSettingsPanel report={report} />
@@ -341,23 +342,6 @@ function AutoTradePanel({ report, onSelectScript, selectedScript }) {
         <Row label="委託直接送出" value={report.directSubmit ? '是' : '否'} />
       </div>
 
-      {/* 安全監控（自動交易獨有，移至腳本設定下方以集中 AT 執行相關設定）*/}
-      <div style={{ ...s.scriptGroup, borderTop: '1px solid var(--color-border)', paddingTop: 8, marginTop: 4 }}>
-        <div style={s.scriptGroupLabel}>安全監控</div>
-        <Row
-          label="單一商品最大部位"
-          value={report.enableMaxPosition !== false ? `${report.maxPosition} 口` : '無限制'}
-        />
-        <Row
-          label="每日最多進場"
-          value={report.enableMaxDailyEntry !== false ? `${report.maxDailyEntry} 次` : '無限制'}
-        />
-        <Row
-          label="每分鐘最多交易"
-          value={report.enableMaxTradePerMin !== false ? `${report.maxTradePerMin} 次` : '無限制'}
-        />
-        <Row label="每日部位歸零" value={report.dailyReset ? '開啟' : '關閉'} />
-      </div>
     </div>
   )
 }
@@ -397,10 +381,10 @@ function ExecutionDataPanel({ report }) {
 
 // ─── 右欄：交易設定 ──────────────────────────────────────────────────────────
 // 交易數量 / 報酬率算法已移至置頂區。
-// 自動交易的安全監控已移至左欄 AutoTradePanel。
-// 此元件無需平台判斷，三平台共用相同欄位。
+// 安全監控（自動交易獨有）條件渲染於此欄底部。
 
 function TradeSettingsPanel({ report }) {
+  const isAT = report.platform === '自動交易'
   return (
     <div>
       <div style={s.panelTitle}>交易設定</div>
@@ -416,6 +400,25 @@ function TradeSettingsPanel({ report }) {
         label="最大同時持有"
         value={report.enableMaxConcurrent ? `${report.maxConcurrentTrades} 筆` : '無限制'}
       />
+
+      {isAT && (
+        <>
+          <div style={s.sectionLabel}>安全監控</div>
+          <Row
+            label="單一商品最大部位"
+            value={report.enableMaxPosition !== false ? `${report.maxPosition} 口` : '無限制'}
+          />
+          <Row
+            label="每日最多進場"
+            value={report.enableMaxDailyEntry !== false ? `${report.maxDailyEntry} 次` : '無限制'}
+          />
+          <Row
+            label="每分鐘最多交易"
+            value={report.enableMaxTradePerMin !== false ? `${report.maxTradePerMin} 次` : '無限制'}
+          />
+          <Row label="每日部位歸零" value={report.dailyReset ? '開啟' : '關閉'} />
+        </>
+      )}
     </div>
   )
 }
