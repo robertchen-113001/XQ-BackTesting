@@ -21,6 +21,8 @@ export default function SystemParamsPanel() {
 
   const cur = settings[platform]
 
+  const UNIQUE_OVERLAYS = ['基準指標', '買進持有報酬率']
+
   const update = (field, value) => {
     setSettings(prev => {
       const next = { ...prev[platform], [field]: value }
@@ -28,11 +30,21 @@ export default function SystemParamsPanel() {
       if (field === 'volumeType' && value === '等比') {
         next.returnAlgorithm = '時間加權報酬率'
       }
+      // 疊加指標互斥：基準指標、買進持有報酬率各只能出現一次
+      if (field === 'overlayIndex1' && UNIQUE_OVERLAYS.includes(value) && next.overlayIndex2 === value) {
+        next.overlayIndex2 = '不疊加'
+      }
+      if (field === 'overlayIndex2' && UNIQUE_OVERLAYS.includes(value) && next.overlayIndex1 === value) {
+        next.overlayIndex1 = '不疊加'
+      }
       return { ...prev, [platform]: next }
     })
   }
 
   const isProportional = cur.volumeType === '等比'
+
+  const overlay1Options = OVERLAY_OPTIONS.filter(o => !UNIQUE_OVERLAYS.includes(o) || o !== cur.overlayIndex2)
+  const overlay2Options = OVERLAY_OPTIONS.filter(o => !UNIQUE_OVERLAYS.includes(o) || o !== cur.overlayIndex1)
 
   return (
     <div style={{ padding: 24 }}>
@@ -160,7 +172,7 @@ export default function SystemParamsPanel() {
               onChange={e => update('overlayIndex1', e.target.value)}
               style={styles.select}
             >
-              {OVERLAY_OPTIONS.map(o => <option key={o} value={o}>{o}</option>)}
+              {overlay1Options.map(o => <option key={o} value={o}>{o}</option>)}
             </select>
             {cur.overlayIndex1 === '自選商品' && (
               <span style={styles.overlayHint}>→ 開啟 XQ 商品搜尋框</span>
@@ -173,7 +185,7 @@ export default function SystemParamsPanel() {
               onChange={e => update('overlayIndex2', e.target.value)}
               style={styles.select}
             >
-              {OVERLAY_OPTIONS.map(o => <option key={o} value={o}>{o}</option>)}
+              {overlay2Options.map(o => <option key={o} value={o}>{o}</option>)}
             </select>
             {cur.overlayIndex2 === '自選商品' && (
               <span style={styles.overlayHint}>→ 開啟 XQ 商品搜尋框</span>
