@@ -129,10 +129,12 @@ export default function TradeRecordsPage() {
 
       {/* Section content */}
       <div style={s.content}>
-        {section === 'csv-fields'   && <CsvFieldsSection />}
-        {section === 'volume-rules' && <VolumeRulesSection />}
-        {section === 'import-spec'  && <ImportSpecSection onOpenDialog={() => setShowUpload(true)} />}
-        {section === 'btreport'     && <BtReportSection />}
+        <div style={{ paddingTop: 24 }}>
+          {section === 'csv-fields'   && <CsvFieldsSection />}
+          {section === 'volume-rules' && <VolumeRulesSection />}
+          {section === 'import-spec'  && <ImportSpecSection onOpenDialog={() => setShowUpload(true)} />}
+          {section === 'btreport'     && <BtReportSection />}
+        </div>
       </div>
 
       {showUpload && <UploadBacktestDialog onClose={() => setShowUpload(false)} />}
@@ -533,7 +535,7 @@ const s = {
     borderRadius: 3, padding: '1px 5px',
   },
 
-  content: { flex: 1, overflowY: 'auto', padding: '24px 28px 40px' },
+  content: { flex: 1, overflowY: 'auto', padding: '0 28px 40px' },
 
   sectionHeader: { marginBottom: 20 },
   sectionTitle: { fontSize: 17, fontWeight: 700, color: 'var(--color-text)', margin: '0 0 6px' },
@@ -547,11 +549,12 @@ const s = {
 
   table: { width: '100%', borderCollapse: 'collapse', fontSize: 14 },
   th: {
-    background: 'var(--color-surface)', padding: '9px 12px',
+    position: 'sticky', top: 0, zIndex: 2,
+    background: '#ffffff', padding: '9px 12px',
     textAlign: 'left', fontWeight: 600, fontSize: 13,
     color: 'var(--color-text-secondary)',
     borderTop: '1px solid var(--color-border)',
-    borderBottom: '1px solid var(--color-border)',
+    boxShadow: 'inset 0 -1px 0 var(--color-border)',
   },
   td: { padding: '9px 12px', color: 'var(--color-text)', borderBottom: '1px solid var(--color-border)' },
   code: {
