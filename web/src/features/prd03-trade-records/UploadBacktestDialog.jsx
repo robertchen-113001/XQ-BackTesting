@@ -20,8 +20,6 @@ export default function UploadBacktestDialog({ onClose }) {
   const [enableMargin, setEnableMargin] = useState(true)
   const [marginRate, setMarginRate] = useState('13.5')
 
-  // Demo states
-  const [showErrors, setShowErrors] = useState(false)
 
   const isEquiRatio = volumeType === '等比'
   // 等比強制鎖定時間加權報酬率
@@ -162,23 +160,13 @@ export default function UploadBacktestDialog({ onClose }) {
             </label>
           </div>
 
-          {/* Demo controls */}
-          <div style={s.demoBar}>
-            <span style={s.demoLabel}>Prototype 示範：</span>
-            <button style={s.demoBtn} onClick={() => setShowErrors(v => !v)}>
-              {showErrors ? '隱藏' : '顯示'}格式錯誤
-            </button>
+          {/* 格式錯誤清單（Demo：直接顯示） */}
+          <div style={s.errorPanel}>
+            <div style={s.errorHeader}>格式錯誤（{DEMO_ERRORS.length} 筆），請修正後重新上傳</div>
+            {DEMO_ERRORS.map((e, i) => (
+              <div key={i} style={s.errorRow}>・{e}</div>
+            ))}
           </div>
-
-          {/* 格式錯誤清單 */}
-          {showErrors && (
-            <div style={s.errorPanel}>
-              <div style={s.errorHeader}>格式錯誤（{DEMO_ERRORS.length} 筆），請修正後重新上傳</div>
-              {DEMO_ERRORS.map((e, i) => (
-                <div key={i} style={s.errorRow}>・{e}</div>
-              ))}
-            </div>
-          )}
         </div>
 
         {/* Footer */}
@@ -186,10 +174,10 @@ export default function UploadBacktestDialog({ onClose }) {
           <button
             style={{
               ...s.btnPrimary,
-              opacity: (!fileName || showErrors) ? 0.4 : 1,
-              cursor: (!fileName || showErrors) ? 'not-allowed' : 'pointer',
+              opacity: !fileName ? 0.4 : 1,
+              cursor: !fileName ? 'not-allowed' : 'pointer',
             }}
-            disabled={!fileName || showErrors}
+            disabled={!fileName}
             onClick={handleSubmit}
           >
             開始計算
@@ -222,7 +210,7 @@ const s = {
     borderBottom: '1px solid var(--color-border)',
     flexShrink: 0,
   },
-  titleText: { fontSize: 15, fontWeight: 700, color: 'var(--color-text)' },
+  titleText: { fontSize: 16, fontWeight: 700, color: 'var(--color-text)' },
   closeBtn: {
     background: 'none', border: 'none', cursor: 'pointer',
     fontSize: 16, color: 'var(--color-text-secondary)', padding: '0 4px',
@@ -236,7 +224,7 @@ const s = {
     padding: '14px 0',
   },
   sectionTitle: {
-    fontSize: 12, fontWeight: 700,
+    fontSize: 13, fontWeight: 700,
     color: 'var(--color-text-secondary)',
     textTransform: 'uppercase', letterSpacing: '0.06em',
     marginBottom: 10,
@@ -245,22 +233,22 @@ const s = {
     display: 'flex', alignItems: 'center', gap: 10,
     marginBottom: 8,
   },
-  label: { fontSize: 13, color: 'var(--color-text)', minWidth: 72, flexShrink: 0 },
+  label: { fontSize: 14, color: 'var(--color-text)', minWidth: 80, flexShrink: 0 },
   browseRow: { display: 'flex', gap: 8, flex: 1 },
   input: {
-    height: 32, padding: '0 10px', fontSize: 13,
+    height: 32, padding: '0 10px', fontSize: 14,
     border: '1px solid var(--color-border)', borderRadius: 4,
     background: 'var(--color-bg)', color: 'var(--color-text)',
     outline: 'none',
   },
   browseBtn: {
-    height: 32, padding: '0 14px', fontSize: 13,
+    height: 32, padding: '0 14px', fontSize: 14,
     border: '1px solid var(--color-border)', borderRadius: 4,
     background: 'var(--color-surface)', color: 'var(--color-text)',
     cursor: 'pointer', display: 'flex', alignItems: 'center',
     flexShrink: 0, whiteSpace: 'nowrap',
   },
-  hint: { fontSize: 12, color: 'var(--color-text-secondary)', marginTop: 4, paddingLeft: 2 },
+  hint: { fontSize: 13, color: 'var(--color-text-secondary)', marginTop: 4, paddingLeft: 2 },
   dateRow: { display: 'flex', alignItems: 'center', gap: 8, marginTop: 8 },
   dateLabel: { fontSize: 13, color: 'var(--color-text)', minWidth: 72, flexShrink: 0 },
   dateInput: {
@@ -271,7 +259,7 @@ const s = {
   },
   dateSep: { fontSize: 13, color: 'var(--color-text-secondary)', flexShrink: 0 },
   select: {
-    height: 32, padding: '0 8px', fontSize: 13,
+    height: 32, padding: '0 8px', fontSize: 14,
     border: '1px solid var(--color-border)', borderRadius: 4,
     background: 'var(--color-surface)', color: 'var(--color-text)',
     cursor: 'pointer', flex: 1,
@@ -279,45 +267,35 @@ const s = {
   costGrid: {
     display: 'flex', alignItems: 'center', gap: 20, marginBottom: 8,
   },
-  costLabel: { fontSize: 13, color: 'var(--color-text)', minWidth: 30 },
+  costLabel: { fontSize: 14, color: 'var(--color-text)', minWidth: 30 },
   costItem: {
     display: 'flex', alignItems: 'center', gap: 6,
-    fontSize: 13, color: 'var(--color-text)',
+    fontSize: 14, color: 'var(--color-text)',
   },
   costInput: {
-    height: 30, width: 70, padding: '0 8px', fontSize: 13, textAlign: 'right',
+    height: 30, width: 70, padding: '0 8px', fontSize: 14, textAlign: 'right',
     border: '1px solid var(--color-border)', borderRadius: 4,
     background: 'var(--color-bg)', color: 'var(--color-text)',
   },
-  demoBar: {
-    display: 'flex', alignItems: 'center', gap: 8,
-    padding: '10px 0 4px', flexWrap: 'wrap',
-  },
-  demoLabel: { fontSize: 12, color: 'var(--color-text-secondary)' },
-  demoBtn: {
-    fontSize: 12, padding: '3px 10px',
-    border: '1px solid var(--color-border)', borderRadius: 4,
-    background: 'var(--color-surface)', color: 'var(--color-text)',
-    cursor: 'pointer',
-  },
   errorPanel: {
+    marginTop: 8,
     background: '#fff1f0', border: '1px solid #ffa39e',
     borderRadius: 6, padding: '10px 14px', marginBottom: 4,
   },
-  errorHeader: { fontSize: 13, fontWeight: 600, color: '#a8071a', marginBottom: 6 },
-  errorRow: { fontSize: 13, color: '#cf1322', lineHeight: 1.7 },
+  errorHeader: { fontSize: 14, fontWeight: 600, color: '#a8071a', marginBottom: 6 },
+  errorRow: { fontSize: 14, color: '#cf1322', lineHeight: 1.7 },
   footer: {
     display: 'flex', justifyContent: 'flex-end', gap: 8,
     padding: '12px 20px', borderTop: '1px solid var(--color-border)',
     flexShrink: 0,
   },
   btnPrimary: {
-    height: 32, padding: '0 18px', fontSize: 13, fontWeight: 600,
+    height: 34, padding: '0 20px', fontSize: 14, fontWeight: 600,
     background: 'var(--color-primary)', color: '#fff',
     border: 'none', borderRadius: 4, cursor: 'pointer',
   },
   btnSecondary: {
-    height: 32, padding: '0 18px', fontSize: 13,
+    height: 34, padding: '0 20px', fontSize: 14,
     background: 'var(--color-surface)', color: 'var(--color-text)',
     border: '1px solid var(--color-border)', borderRadius: 4, cursor: 'pointer',
   },

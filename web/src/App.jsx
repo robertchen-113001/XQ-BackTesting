@@ -21,7 +21,7 @@ function TabBar({ activeTabId, onSelect }) {
         <button key={t.id} onClick={() => onSelect(t.id)}
           style={{
             padding: '11px 16px', border: 'none', background: 'none', cursor: 'pointer',
-            fontSize: 13, fontWeight: activeTabId === t.id ? 700 : 400, whiteSpace: 'nowrap',
+            fontSize: 15, fontWeight: activeTabId === t.id ? 700 : 400, whiteSpace: 'nowrap',
             color: activeTabId === t.id ? 'var(--color-primary)' : 'var(--color-text-secondary)',
             borderBottom: activeTabId === t.id ? '2px solid var(--color-primary)' : '2px solid transparent',
             marginBottom: -1, transition: 'color 0.15s',

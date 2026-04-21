@@ -70,13 +70,13 @@ const s = {
     borderBottom: '1px solid var(--color-border)',
   },
   pageTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 700,
     color: 'var(--color-text)',
     margin: '0 0 4px 0',
   },
   pageDesc: {
-    fontSize: 13,
+    fontSize: 14,
     color: 'var(--color-text-secondary)',
     margin: '0 0 12px 0',
   },
@@ -88,14 +88,14 @@ const s = {
   },
   tabBtn: {
     padding: '8px 20px',
-    fontSize: 13,
+    fontSize: 14,
     border: 'none',
     cursor: 'pointer',
     transition: 'all 0.15s',
   },
   tabDesc: {
     padding: '6px 24px',
-    fontSize: 12,
+    fontSize: 13,
     color: 'var(--color-text-secondary)',
     background: '#fafafa',
     borderBottom: '1px solid var(--color-border)',

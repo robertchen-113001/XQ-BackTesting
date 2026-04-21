@@ -108,7 +108,6 @@ export default function TradeRecordsPage() {
           <h2 style={s.pageTitle}>PRD 03 — 交易紀錄格式規範</h2>
           <p style={s.pageSubtitle}>統一 CSV 欄位定義（server 輸入 / 輸出共用）・CSV 匯入規格・BTReportNew 相容規格</p>
         </div>
-        <div style={s.versionBadge}>v2.1</div>
       </div>
 
       {/* Section tabs */}
@@ -496,7 +495,7 @@ function InfoBox({ children, type = 'info' }) {
   return (
     <div style={{ background: c.bg, border: `1px solid ${c.border}`, borderRadius: 6, padding: '12px 14px', marginTop: 16, display: 'flex', gap: 10 }}>
       <span style={{ color: c.iconColor, fontSize: 15, flexShrink: 0 }}>{c.icon}</span>
-      <p style={{ margin: 0, fontSize: 13, color: 'var(--color-text)', lineHeight: 1.65 }}>{children}</p>
+      <p style={{ margin: 0, fontSize: 14, color: 'var(--color-text)', lineHeight: 1.65 }}>{children}</p>
     </div>
   )
 }
@@ -510,13 +509,8 @@ const s = {
     display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start',
     padding: '20px 28px 0',
   },
-  pageTitle: { fontSize: 18, fontWeight: 700, color: 'var(--color-text)', margin: 0 },
-  pageSubtitle: { fontSize: 13, color: 'var(--color-text-secondary)', margin: '4px 0 0' },
-  versionBadge: {
-    fontSize: 11, fontWeight: 700, color: '#8b5cf6',
-    background: '#f5f3ff', border: '1px solid #c4b5fd',
-    borderRadius: 4, padding: '2px 8px', flexShrink: 0, marginTop: 4,
-  },
+  pageTitle: { fontSize: 20, fontWeight: 700, color: 'var(--color-text)', margin: 0 },
+  pageSubtitle: { fontSize: 14, color: 'var(--color-text-secondary)', margin: '4px 0 0' },
 
   tabBar: {
     display: 'flex', gap: 0,
@@ -526,7 +520,7 @@ const s = {
   },
   tab: {
     padding: '10px 18px', border: 'none', background: 'none', cursor: 'pointer',
-    fontSize: 13, color: 'var(--color-text-secondary)', borderBottom: '2px solid transparent',
+    fontSize: 14, color: 'var(--color-text-secondary)', borderBottom: '2px solid transparent',
     marginBottom: -1, display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap',
   },
   tabActive: {
@@ -534,7 +528,7 @@ const s = {
     borderBottomColor: 'var(--color-primary)',
   },
   tabTag: {
-    fontSize: 10, fontWeight: 700, color: 'var(--color-text-secondary)',
+    fontSize: 12, fontWeight: 700, color: 'var(--color-text-secondary)',
     background: 'var(--color-bg)', border: '1px solid var(--color-border)',
     borderRadius: 3, padding: '1px 5px',
   },
@@ -542,78 +536,77 @@ const s = {
   content: { flex: 1, overflowY: 'auto', padding: '24px 28px 40px' },
 
   sectionHeader: { marginBottom: 20 },
-  sectionTitle: { fontSize: 16, fontWeight: 700, color: 'var(--color-text)', margin: '0 0 6px' },
-  sectionDesc: { fontSize: 13, color: 'var(--color-text-secondary)', margin: 0, lineHeight: 1.6 },
+  sectionTitle: { fontSize: 17, fontWeight: 700, color: 'var(--color-text)', margin: '0 0 6px' },
+  sectionDesc: { fontSize: 14, color: 'var(--color-text-secondary)', margin: 0, lineHeight: 1.6 },
 
   legendRow: { display: 'flex', gap: 8, marginBottom: 14, flexWrap: 'wrap' },
   chip: {
-    fontSize: 11, padding: '2px 8px', borderRadius: 4,
+    fontSize: 12, padding: '2px 8px', borderRadius: 4,
     border: '1px solid', fontWeight: 500,
   },
 
-  table: { width: '100%', borderCollapse: 'collapse', fontSize: 13 },
+  table: { width: '100%', borderCollapse: 'collapse', fontSize: 14 },
   th: {
     background: 'var(--color-surface)', padding: '9px 12px',
-    textAlign: 'left', fontWeight: 600, fontSize: 12,
+    textAlign: 'left', fontWeight: 600, fontSize: 13,
     color: 'var(--color-text-secondary)',
     borderTop: '1px solid var(--color-border)',
-    boxShadow: '0 1px 0 var(--color-border)',
-    position: 'sticky', top: 0, zIndex: 2,
+    borderBottom: '1px solid var(--color-border)',
   },
   td: { padding: '9px 12px', color: 'var(--color-text)', borderBottom: '1px solid var(--color-border)' },
   code: {
     background: 'var(--color-bg)', padding: '2px 6px', borderRadius: 3,
-    fontSize: 11, fontFamily: 'monospace', border: '1px solid var(--color-border)',
+    fontSize: 12, fontFamily: 'monospace', border: '1px solid var(--color-border)',
   },
   reqBadge: {
     display: 'inline-block', padding: '1px 8px', borderRadius: 10,
-    background: '#dcfce7', color: '#15803d', fontSize: 12, fontWeight: 700,
+    background: '#dcfce7', color: '#15803d', fontSize: 13, fontWeight: 700,
   },
 
   toggleBtn: {
-    fontSize: 13, padding: '6px 12px', cursor: 'pointer',
+    fontSize: 14, padding: '6px 14px', cursor: 'pointer',
     border: '1px solid var(--color-border)', borderRadius: 4,
     background: 'var(--color-surface)', color: 'var(--color-text)',
   },
 
-  subTitle: { fontSize: 14, fontWeight: 600, color: 'var(--color-text)', margin: '20px 0 10px' },
+  subTitle: { fontSize: 15, fontWeight: 600, color: 'var(--color-text)', margin: '20px 0 10px' },
 
   flowRow: { display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 8, marginBottom: 8 },
   flowStep: { display: 'flex', alignItems: 'center', gap: 4 },
   flowNum: {
-    width: 22, height: 22, borderRadius: '50%',
+    width: 24, height: 24, borderRadius: '50%',
     background: '#f5f3ff', border: '1px solid #c4b5fd',
-    color: '#6d28d9', fontSize: 11, fontWeight: 700,
+    color: '#6d28d9', fontSize: 12, fontWeight: 700,
     display: 'flex', alignItems: 'center', justifyContent: 'center',
     flexShrink: 0,
   },
-  flowLabel: { fontSize: 12, color: 'var(--color-text)', maxWidth: 110, lineHeight: 1.3 },
-  flowArrow: { fontSize: 14, color: 'var(--color-text-secondary)', margin: '0 2px' },
+  flowLabel: { fontSize: 13, color: 'var(--color-text)', maxWidth: 110, lineHeight: 1.3 },
+  flowArrow: { fontSize: 15, color: 'var(--color-text-secondary)', margin: '0 2px' },
 
   menuBlock: {
     border: '1px solid var(--color-border)', borderRadius: 6,
     overflow: 'hidden', marginBottom: 24, display: 'inline-block', minWidth: 280,
   },
   menuTitle: {
-    fontSize: 11, fontWeight: 700, color: 'var(--color-text-secondary)',
+    fontSize: 12, fontWeight: 700, color: 'var(--color-text-secondary)',
     background: 'var(--color-bg)', padding: '6px 12px',
     borderBottom: '1px solid var(--color-border)',
   },
   menuBody: { background: 'var(--color-surface)', padding: '4px 0' },
   menuItem: {
-    padding: '5px 16px', fontSize: 13, color: 'var(--color-text)',
+    padding: '5px 16px', fontSize: 14, color: 'var(--color-text)',
     display: 'flex', justifyContent: 'space-between', alignItems: 'center',
   },
   menuItemActive: { color: 'var(--color-text-secondary)' },
   menuItemHighlight: { background: '#eff6ff', color: 'var(--color-primary)', fontWeight: 600 },
   menuDivider: { height: 1, background: 'var(--color-border)', margin: '3px 0' },
   menuNew: {
-    fontSize: 10, fontWeight: 700, color: '#fff',
+    fontSize: 11, fontWeight: 700, color: '#fff',
     background: 'var(--color-primary)', borderRadius: 3,
     padding: '1px 5px',
   },
   menuNote: {
-    fontSize: 11, color: 'var(--color-text-secondary)',
+    fontSize: 12, color: 'var(--color-text-secondary)',
     padding: '6px 12px', background: 'var(--color-bg)',
     borderTop: '1px solid var(--color-border)',
   },
@@ -624,11 +617,11 @@ const s = {
     borderRadius: 6,
   },
   demoBlockTitle: {
-    fontSize: 11, fontWeight: 700, color: 'var(--color-text-secondary)',
+    fontSize: 12, fontWeight: 700, color: 'var(--color-text-secondary)',
     textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8,
   },
   demoOpenBtn: {
-    height: 36, padding: '0 20px', fontSize: 13, fontWeight: 600,
+    height: 36, padding: '0 20px', fontSize: 14, fontWeight: 600,
     background: 'var(--color-primary)', color: '#fff',
     border: 'none', borderRadius: 4, cursor: 'pointer',
   },

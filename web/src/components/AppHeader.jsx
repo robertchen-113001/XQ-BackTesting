@@ -16,18 +16,11 @@ export default function AppHeader() {
       <span style={{ fontWeight: 600, fontSize: 'var(--font-size-md)', color: 'var(--color-text-primary)' }}>
         回測報告 · XQ全球贏家(企業版)
       </span>
-      {/* A2 功能 */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <div style={{ position: 'relative' }}>
-          <button style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-            <span>匯入回測報告</span>
-            <span style={{ fontSize: 10 }}>▼</span>
-          </button>
-        </div>
-        <button style={{ width: 26, height: 26, padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>?</button>
-        <button style={{ width: 26, height: 26, padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>─</button>
-        <button style={{ width: 26, height: 26, padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>□</button>
-        <button style={{ width: 26, height: 26, padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ff4d4f', fontWeight: 'bold' }}>✕</button>
+      {/* A2 視窗控制 */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+        <button style={{ width: 26, height: 26, padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', border: 'none', background: 'none', cursor: 'pointer' }}>─</button>
+        <button style={{ width: 26, height: 26, padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', border: 'none', background: 'none', cursor: 'pointer' }}>□</button>
+        <button style={{ width: 26, height: 26, padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', border: 'none', background: 'none', cursor: 'pointer', color: '#ff4d4f', fontWeight: 'bold' }}>✕</button>
       </div>
     </div>
   )
