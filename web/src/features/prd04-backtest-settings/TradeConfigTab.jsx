@@ -1,28 +1,6 @@
-/**
- * PRD 04 §4 — 報告「交易設定」
- *
- * 條件渲染架構說明（給前端工程師）
- * ─────────────────────────────────
- * 本元件接收 `report` prop，其中 report.platform 決定左側「腳本設定」區塊的渲染內容：
- *
- *   選股中心 → <EntryExitPanel>：顯示「進場條件」+「出場條件」
- *   策略雷達 → <EntryExitPanel>：顯示「進場腳本」+「出場腳本」（多一組期貨停損）
- *   自動交易 → <AutoTradePanel>：隱藏進出場條件，改顯示「交易腳本」+「預設委託」
- *
- * 中間「執行資料」與右側「安控設定」同樣有條件顯示的 tag 與欄位：
- *   - [逐筆洗價] tag：tickSimulation=true 才顯示
- *   - [觸發即判斷成交] tag：自動交易且 immediateFill=true
- *   - [美股全時段] tag：usMarketAll=true
- *   - 安全監控區塊：僅自動交易顯示
- *   - 每日部位歸零：僅自動交易顯示
- *
- * 實際使用時，`report` 來自後端回傳的回測結果資料；
- * Prototype 模式下，由頁面注入各平台的 MOCK_REPORTS。
- */
-
 import { useState } from 'react'
 
-// ─── Mock 資料（Prototype 用）───────────────────────────────────────────────
+// ─── Mock 資料 ───────────────────────────────────────────────────────────────
 
 const MOCK_REPORTS = {
   選股中心: {
@@ -145,8 +123,6 @@ const MOCK_REPORTS = {
 // ─── 主元件 ──────────────────────────────────────────────────────────────────
 
 export default function TradeConfigTab() {
-  // Prototype 用：允許切換平台以觀察條件渲染效果
-  // 實際實作時：platform 直接取自 report.platform，不需此切換器
   const [platform, setPlatform] = useState('選股中心')
   const [selectedScript, setSelectedScript] = useState(null)
 
@@ -164,26 +140,22 @@ export default function TradeConfigTab() {
   return (
     <div style={s.root}>
 
-      {/* ── Prototype 說明欄（實際實作時移除）── */}
-      <div style={s.prototypeNotice}>
-        <strong>Prototype 模式</strong>：切換平台觀察置頂區 tag 列、左側腳本設定、右側交易設定（自動交易底部顯示安全監控）的條件渲染差異。
-        實際實作時，platform 由 <code>report.platform</code> 決定，不需此切換器。
-        <div style={{ marginTop: 6, display: 'flex', gap: 8 }}>
-          {['選股中心', '策略雷達', '自動交易'].map(p => (
-            <button
-              key={p}
-              onClick={() => handlePlatformChange(p)}
-              style={{
-                ...s.platformBtn,
-                background: platform === p ? 'var(--color-primary)' : 'var(--color-surface)',
-                color: platform === p ? '#fff' : 'var(--color-text)',
-                borderColor: platform === p ? 'var(--color-primary)' : 'var(--color-border)',
-              }}
-            >
-              {p}
-            </button>
-          ))}
-        </div>
+      {/* 平台切換 */}
+      <div style={s.platformBar}>
+        {['選股中心', '策略雷達', '自動交易'].map(p => (
+          <button
+            key={p}
+            onClick={() => handlePlatformChange(p)}
+            style={{
+              ...s.platformBtn,
+              background: platform === p ? 'var(--color-primary)' : 'var(--color-surface)',
+              color: platform === p ? '#fff' : 'var(--color-text)',
+              borderColor: platform === p ? 'var(--color-primary)' : 'var(--color-border)',
+            }}
+          >
+            {p}
+          </button>
+        ))}
       </div>
 
       {/* ── 置頂區：tag 列 + 交易數量 + 報酬率算法 ── */}
@@ -192,11 +164,6 @@ export default function TradeConfigTab() {
       {/* ── 三欄主區域 ── */}
       <div style={s.mainGrid}>
 
-        {/* 左欄：腳本設定（條件渲染核心）
-         * 分流邏輯：platform 在此做一次判斷，子元件不重複判斷。
-         *   自動交易 → AutoTradePanel（腳本 + 委託 + 安全監控）
-         *   其他     → EntryExitPanel（進場條件/腳本 + 出場條件/腳本）
-         */}
         <div style={s.panel}>
           <div style={s.panelTitle}>腳本設定</div>
           {platform === '自動交易'
@@ -210,10 +177,6 @@ export default function TradeConfigTab() {
           <ExecutionDataPanel report={report} />
         </div>
 
-        {/* 右欄：交易設定（費用 / 進場順序 / 保證金 / 同時持有 / 安全監控）
-         * 交易數量 + 報酬率算法已移至置頂區。
-         * 自動交易安全監控移至此欄底部（report.platform === '自動交易' 條件顯示）。
-         */}
         <div style={s.panel}>
           <TradeSettingsPanel report={report} />
         </div>
@@ -228,8 +191,6 @@ export default function TradeConfigTab() {
 }
 
 // ─── 置頂區 ──────────────────────────────────────────────────────────────────
-// 僅顯示「交易數量」與「報酬率算法」兩個欄位，靠左對齊。
-// 頻率 / 逐筆洗價 / 觸發即判斷成交 / 美股全時段 等 tag 已移至中欄執行資料面板。
 
 function TopBar({ report }) {
   return (
@@ -504,11 +465,6 @@ function Tag({ label }) {
 
 // ─── 工具函數 ─────────────────────────────────────────────────────────────────
 
-/**
- * 從 report 資料中收集所有腳本，供腳本檢視器使用。
- * 實際實作時，腳本程式碼由後端回傳（report.scripts 陣列）；
- * Prototype 用假資料填充。
- */
 function collectScripts(report) {
   const scripts = []
 
@@ -554,12 +510,11 @@ const s = {
     fontSize: 13,
     color: 'var(--color-text)',
   },
-  prototypeNotice: {
-    padding: '10px 16px',
-    background: '#fffbe6',
-    borderBottom: '1px solid #ffe58f',
-    fontSize: 14,
-    color: '#664d00',
+  platformBar: {
+    padding: '8px 16px',
+    display: 'flex',
+    gap: 8,
+    borderBottom: '1px solid var(--color-border)',
     flexShrink: 0,
   },
   platformBtn: {
