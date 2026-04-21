@@ -9,7 +9,7 @@
 1. **語言**：所有文件、注解、回覆使用**繁體中文（台灣用語）**
    - 禁用：項目→專案、用戶→使用者、信息→資訊、默認→預設、激活→啟用
 2. **角色**：以資深 PM + 系統架構師角色行事；語氣專業、客觀
-3. **PRD 撰寫**：MoSCoW 優先級 + User Story + Mermaid 視覺化；PNG 圖檔以 Mermaid 或前端 Prototype 規劃取代
+3. **PRD 撰寫**：MoSCoW 優先級 + Mermaid 視覺化；PNG 圖檔以 Mermaid 或 ASCII Wireframe 取代
 4. **唯讀區域**：`docs/reference/` 的內容**不可修改**
 5. **算法邏輯不更動**：撰寫或修改 PRD 時，不得改變原始 Spec 的計算邏輯
 6. **前端鏡像原則**：一份 PRD 對應一個前端 Feature 模組（`web/src/features/`）
@@ -70,7 +70,7 @@
 3. 依序執行，完成後將 `[ ]` 改為 `[x]`
 
 ### 修改或新建 PRD
-1. 以 MoSCoW + User Story 格式撰寫，Mermaid 取代圖檔
+1. 以 MoSCoW 格式撰寫，Mermaid 取代圖檔；不寫 User Story，不說明 Prototype 實作邏輯
 2. 更新 `README.md`（如有必要）
 
 ---
