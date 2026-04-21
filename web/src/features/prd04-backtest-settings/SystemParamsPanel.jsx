@@ -117,6 +117,9 @@ export default function SystemParamsPanel() {
                       style={{ marginRight: 4 }}
                     />
                     {algo}
+                    {algo === '金額加權報酬率' && (
+                      <span style={{ fontSize: 12, color: '#aaa', marginLeft: 3 }}>（評估中）</span>
+                    )}
                   </label>
                 )
               })}
@@ -231,7 +234,7 @@ const styles = {
     margin: 0,
   },
   legend: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: 600,
     color: 'var(--color-text-secondary)',
     padding: '0 6px',
@@ -271,13 +274,13 @@ const styles = {
     minWidth: 200,
   },
   hint: {
-    fontSize: 12,
+    fontSize: 14,
     color: 'var(--color-text-secondary)',
     margin: '4px 0 0 0',
     lineHeight: 1.5,
   },
   overlayHint: {
-    fontSize: 12,
+    fontSize: 14,
     color: 'var(--color-primary)',
     marginLeft: 8,
   },

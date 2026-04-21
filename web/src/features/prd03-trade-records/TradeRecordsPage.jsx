@@ -18,7 +18,7 @@ const FIELDS = [
   { n: 12, id: 'ProfitLoss',      name: '獲利金額',     fmt: 'double，ROUNDDOWN 至整數',          required: false, src: 'server 計算' },
   { n: 13, id: 'ReturnRate',      name: '報酬率',       fmt: 'double，保留 6 位小數',             required: false, src: 'server 計算' },
   { n: 14, id: 'NetProfit_Amount',name: '累計獲利金額', fmt: 'double，ROUNDDOWN 至整數',          required: false, src: 'server 計算' },
-  { n: 15, id: 'NetProfit',       name: '累計報酬率',   fmt: 'double，保留 6 位小數',             required: false, src: 'server 計算' },
+  { n: 15, id: 'NetProfit',       name: '累積報酬率',   fmt: 'double，保留 6 位小數',             required: false, src: 'server 計算' },
   { n: 16, id: 'PeriodHigh',      name: '區間最高價',   fmt: 'double，持有區間內最高成交價',       required: false, src: 'server 計算' },
   { n: 17, id: 'PeriodLow',       name: '區間最低價',   fmt: 'double，持有區間內最低成交價',       required: false, src: 'server 計算' },
   { n: 18, id: 'EntrySignal',     name: '進場訊息',     fmt: 'string，策略觸發條件說明',          required: false, src: '使用者提供或策略產生' },
@@ -40,7 +40,7 @@ const PLATFORM_MAPPING = [
   { field: '獲利金額',    s: 'server 計算', r: 'server 計算', a: 'server 計算' },
   { field: '報酬率',      s: 'server 計算', r: 'server 計算', a: 'server 計算' },
   { field: '累計獲利金額',s: 'server 計算', r: 'server 計算', a: 'server 計算' },
-  { field: '累計報酬率',  s: 'server 計算', r: 'server 計算', a: 'server 計算' },
+  { field: '累積報酬率',  s: 'server 計算', r: 'server 計算', a: 'server 計算' },
   { field: '區間最高價',  s: 'server 計算', r: 'server 計算', a: 'server 計算' },
   { field: '區間最低價',  s: 'server 計算', r: 'server 計算', a: 'server 計算' },
   { field: '進場訊息',    s: '留空', r: '✓', a: '✓' },
@@ -189,7 +189,7 @@ function CsvFieldsSection() {
               <td style={{ ...s.td, textAlign: 'center' }}>
                 {f.required ? <span style={s.reqBadge}>✓</span> : ''}
               </td>
-              <td style={{ ...s.td, color: srcColor(f.src), fontSize: 12 }}>{f.src}</td>
+              <td style={{ ...s.td, color: srcColor(f.src), fontSize: 14 }}>{f.src}</td>
             </tr>
           ))}
         </tbody>
@@ -215,7 +215,7 @@ function CsvFieldsSection() {
                   <td style={s.td}>{r.field}</td>
                   {[r.s, r.r, r.a].map((v, i) => (
                     <td key={i} style={{
-                      ...s.td, textAlign: 'center', fontSize: 12,
+                      ...s.td, textAlign: 'center', fontSize: 14,
                       color: v === '✓' ? '#15803d'
                         : v.startsWith('固定') || v.startsWith('留空') ? 'var(--color-text-secondary)'
                         : v === 'server 計算' ? '#8b5cf6'
@@ -261,9 +261,9 @@ function VolumeRulesSection() {
             <tr key={m.mode} style={{ background: m.mode === '依紀錄' ? '#eff6ff' : 'transparent' }}>
               <td style={{ ...s.td, fontWeight: 700 }}>{m.mode}</td>
               <td style={{ ...s.td, color: 'var(--color-text-secondary)' }}>{m.desc}</td>
-              <td style={{ ...s.td, fontFamily: 'monospace', fontSize: 12 }}>{m.fixed}</td>
+              <td style={{ ...s.td, fontFamily: 'monospace', fontSize: 14 }}>{m.fixed}</td>
               <td style={{
-                ...s.td, fontSize: 12,
+                ...s.td, fontSize: 14,
                 color: m.platform === '僅自動交易' || m.platform === '僅使用者匯入' ? '#d4720a' : 'var(--color-text)',
               }}>{m.platform}</td>
             </tr>
@@ -285,7 +285,7 @@ function VolumeRulesSection() {
             <tr key={r.src}>
               <td style={{ ...s.td, fontWeight: 500 }}>{r.src}</td>
               <td style={{ ...s.td, color: 'var(--color-text-secondary)' }}>{r.rule}</td>
-              <td style={{ ...s.td, color: '#8b5cf6', fontSize: 12 }}>{r.convert}</td>
+              <td style={{ ...s.td, color: '#8b5cf6', fontSize: 14 }}>{r.convert}</td>
             </tr>
           ))}
         </tbody>
@@ -440,7 +440,7 @@ function BtReportSection() {
               <td style={s.td}><code style={s.code}>{r.ext}</code></td>
               <td style={{ ...s.td, color: r.ver === '新版' ? '#15803d' : 'var(--color-text-secondary)' }}>{r.ver}</td>
               <td style={s.td}>{r.how}</td>
-              <td style={{ ...s.td, color: 'var(--color-text-secondary)', fontSize: 12 }}>{r.note}</td>
+              <td style={{ ...s.td, color: 'var(--color-text-secondary)', fontSize: 14 }}>{r.note}</td>
             </tr>
           ))}
         </tbody>
@@ -530,7 +530,7 @@ const s = {
     borderBottomColor: 'var(--color-primary)',
   },
   tabTag: {
-    fontSize: 12, fontWeight: 700, color: 'var(--color-text-secondary)',
+    fontSize: 14, fontWeight: 700, color: 'var(--color-text-secondary)',
     background: 'var(--color-bg)', border: '1px solid var(--color-border)',
     borderRadius: 3, padding: '1px 5px',
   },
@@ -543,7 +543,7 @@ const s = {
 
   legendRow: { display: 'flex', gap: 8, marginBottom: 14, flexWrap: 'wrap' },
   chip: {
-    fontSize: 12, padding: '2px 8px', borderRadius: 4,
+    fontSize: 14, padding: '2px 8px', borderRadius: 4,
     border: '1px solid', fontWeight: 500,
   },
 
@@ -559,7 +559,7 @@ const s = {
   td: { padding: '9px 12px', color: 'var(--color-text)', borderBottom: '1px solid var(--color-border)' },
   code: {
     background: 'var(--color-bg)', padding: '2px 6px', borderRadius: 3,
-    fontSize: 12, fontFamily: 'monospace', border: '1px solid var(--color-border)',
+    fontSize: 14, fontFamily: 'monospace', border: '1px solid var(--color-border)',
   },
   reqBadge: {
     display: 'inline-block', padding: '1px 8px', borderRadius: 10,
@@ -579,7 +579,7 @@ const s = {
   flowNum: {
     width: 24, height: 24, borderRadius: '50%',
     background: '#f5f3ff', border: '1px solid #c4b5fd',
-    color: '#6d28d9', fontSize: 12, fontWeight: 700,
+    color: '#6d28d9', fontSize: 14, fontWeight: 700,
     display: 'flex', alignItems: 'center', justifyContent: 'center',
     flexShrink: 0,
   },
@@ -591,7 +591,7 @@ const s = {
     overflow: 'hidden', marginBottom: 24, display: 'inline-block', minWidth: 280,
   },
   menuTitle: {
-    fontSize: 12, fontWeight: 700, color: 'var(--color-text-secondary)',
+    fontSize: 14, fontWeight: 700, color: 'var(--color-text-secondary)',
     background: 'var(--color-bg)', padding: '6px 12px',
     borderBottom: '1px solid var(--color-border)',
   },
@@ -604,12 +604,12 @@ const s = {
   menuItemHighlight: { background: '#eff6ff', color: 'var(--color-primary)', fontWeight: 600 },
   menuDivider: { height: 1, background: 'var(--color-border)', margin: '3px 0' },
   menuNew: {
-    fontSize: 11, fontWeight: 700, color: '#fff',
+    fontSize: 13, fontWeight: 700, color: '#fff',
     background: 'var(--color-primary)', borderRadius: 3,
     padding: '1px 5px',
   },
   menuNote: {
-    fontSize: 12, color: 'var(--color-text-secondary)',
+    fontSize: 14, color: 'var(--color-text-secondary)',
     padding: '6px 12px', background: 'var(--color-bg)',
     borderTop: '1px solid var(--color-border)',
   },
@@ -620,7 +620,7 @@ const s = {
     borderRadius: 6,
   },
   demoBlockTitle: {
-    fontSize: 12, fontWeight: 700, color: 'var(--color-text-secondary)',
+    fontSize: 14, fontWeight: 700, color: 'var(--color-text-secondary)',
     textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8,
   },
   demoOpenBtn: {

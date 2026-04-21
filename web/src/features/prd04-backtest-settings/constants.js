@@ -16,7 +16,7 @@ export const VOLUME_LABELS = {
 export const RETURN_ALGORITHMS = [
   '時間加權報酬率',
   '最大投入報酬率',
-  '金額加權報酬率',
+  '金額加權報酬率', // 尚在評估中，不確定是否開發
 ]
 
 export const ENTRY_ORDER_TYPES = {

@@ -85,7 +85,9 @@ export default function TradeSettingsSection({ platform, form, onChange }) {
             }}
           >
             {RETURN_ALGORITHMS.map(algo => (
-              <option key={algo} value={algo}>{algo}</option>
+              <option key={algo} value={algo}>
+                {algo === '金額加權報酬率' ? `${algo}（評估中）` : algo}
+              </option>
             ))}
           </select>
         </div>
@@ -115,7 +117,7 @@ export default function TradeSettingsSection({ platform, form, onChange }) {
 
 const s = {
   fieldset: { border: '1px solid var(--color-border)', borderRadius: 6, padding: '10px 14px', margin: 0 },
-  legend: { fontSize: 12, fontWeight: 600, color: 'var(--color-text-secondary)', padding: '0 6px' },
+  legend: { fontSize: 14, fontWeight: 600, color: 'var(--color-text-secondary)', padding: '0 6px' },
   body: { display: 'flex', flexDirection: 'column', gap: 10 },
   row: { display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' },
   fixedLabel: { width: 72, fontSize: 13, color: 'var(--color-text)', flexShrink: 0 },
@@ -125,7 +127,7 @@ const s = {
   unit: { fontSize: 13, color: 'var(--color-text-secondary)' },
   tooltip: { fontSize: 13, color: 'var(--color-primary)', cursor: 'help' },
   selectWrap: { display: 'flex', alignItems: 'center', gap: 8 },
-  fixedHint: { fontSize: 12, color: '#aaa', background: '#f5f5f5', padding: '3px 8px', borderRadius: 3, border: '1px solid #eee' },
-  hint: { fontSize: 12, color: '#d46b08', margin: '2px 0 0 0', background: '#fff7e6', padding: '4px 8px', borderRadius: 3 },
-  inlineHint: { fontSize: 12, color: 'var(--color-primary)' },
+  fixedHint: { fontSize: 14, color: '#aaa', background: '#f5f5f5', padding: '3px 8px', borderRadius: 3, border: '1px solid #eee' },
+  hint: { fontSize: 14, color: '#d46b08', margin: '2px 0 0 0', background: '#fff7e6', padding: '4px 8px', borderRadius: 3 },
+  inlineHint: { fontSize: 14, color: 'var(--color-primary)' },
 }

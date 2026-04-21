@@ -178,7 +178,7 @@ const s = {
     position: 'absolute',
     top: 8,
     right: 12,
-    fontSize: 10,
+    fontSize: 12,
     background: '#e0e0e0',
     color: '#666',
     padding: '1px 6px',
@@ -186,6 +186,6 @@ const s = {
     zIndex: 1,
   },
   summary: { marginTop: 8 },
-  summaryToggle: { fontSize: 12, color: 'var(--color-text-secondary)', background: 'none', border: 'none', cursor: 'pointer', padding: 0 },
-  summaryPre: { fontSize: 12, background: '#f5f5f5', padding: '8px 12px', borderRadius: 4, color: 'var(--color-text-secondary)', marginTop: 4, lineHeight: 1.8 },
+  summaryToggle: { fontSize: 14, color: 'var(--color-text-secondary)', background: 'none', border: 'none', cursor: 'pointer', padding: 0 },
+  summaryPre: { fontSize: 14, background: '#f5f5f5', padding: '8px 12px', borderRadius: 4, color: 'var(--color-text-secondary)', marginTop: 4, lineHeight: 1.8 },
 }

@@ -27,12 +27,12 @@ export default function LeverageSection({ form, onChange }) {
 
 const s = {
   fieldset: { border: '1px solid var(--color-border)', borderRadius: 6, padding: '10px 14px', margin: 0 },
-  legend: { fontSize: 12, fontWeight: 600, color: 'var(--color-text-secondary)', padding: '0 6px' },
+  legend: { fontSize: 14, fontWeight: 600, color: 'var(--color-text-secondary)', padding: '0 6px' },
   body: { display: 'flex', flexDirection: 'column', gap: 8 },
   row: { display: 'flex', alignItems: 'center', gap: 8 },
   label: { width: 92, fontSize: 13, color: 'var(--color-text)', flexShrink: 0 },
   checkLabel: { width: 112, fontSize: 13, cursor: 'pointer', display: 'flex', alignItems: 'center', color: 'var(--color-text)', flexShrink: 0 },
   numInput: { width: 70, fontSize: 13, padding: '4px 6px', border: '1px solid var(--color-border)', borderRadius: 4 },
-  unit: { fontSize: 12, color: 'var(--color-text-secondary)' },
-  tag: { fontSize: 11, background: '#f0f0f0', color: '#888', padding: '1px 6px', borderRadius: 3 },
+  unit: { fontSize: 14, color: 'var(--color-text-secondary)' },
+  tag: { fontSize: 13, background: '#f0f0f0', color: '#888', padding: '1px 6px', borderRadius: 3 },
 }

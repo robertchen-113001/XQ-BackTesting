@@ -100,7 +100,11 @@ export default function UploadBacktestDialog({ onClose }) {
                 disabled={isEquiRatio}
                 onChange={e => setReturnAlgorithm(e.target.value)}
               >
-                {RETURN_ALGORITHMS.map(v => <option key={v} value={v}>{v}</option>)}
+                {RETURN_ALGORITHMS.map(v => (
+                  <option key={v} value={v}>
+                    {v === '金額加權報酬率' ? `${v}（評估中）` : v}
+                  </option>
+                ))}
               </select>
             </div>
             {isEquiRatio && (

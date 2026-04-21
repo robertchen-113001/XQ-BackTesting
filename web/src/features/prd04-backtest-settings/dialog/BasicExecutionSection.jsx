@@ -131,7 +131,7 @@ export default function BasicExecutionSection({ platform, form, onChange }) {
 
 const s = {
   fieldset: { border: '1px solid var(--color-border)', borderRadius: 6, padding: '10px 14px', margin: 0 },
-  legend: { fontSize: 12, fontWeight: 600, color: 'var(--color-text-secondary)', padding: '0 6px' },
+  legend: { fontSize: 14, fontWeight: 600, color: 'var(--color-text-secondary)', padding: '0 6px' },
   grid: { display: 'flex', flexDirection: 'column', gap: 8 },
   row: { display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' },
   label: { width: 80, fontSize: 13, color: 'var(--color-text)', flexShrink: 0 },
