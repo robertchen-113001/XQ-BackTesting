@@ -11,7 +11,7 @@ const FIELDS = [
   { n: 5,  id: 'EntryDirection',  name: '進場方向',     fmt: '買進 / B / 賣出 / S',               required: false, src: '預設「買進」' },
   { n: 6,  id: 'EntryPrice',      name: '進場價格',     fmt: 'double',                           required: true,  src: '使用者提供' },
   { n: 7,  id: 'ExitDate',        name: '出場時間',     fmt: '同進場；未出場填 --',               required: true,  src: '使用者提供' },
-  { n: 8,  id: 'ExitDirection',   name: '出場方向',     fmt: '系統自動推算為進場方向的反向',       required: false, src: '系統自動推算' },
+  { n: 8,  id: 'ExitDirection',   name: '出場方向',     fmt: '進場方向的反向，由系統計算；使用者填入值會被覆蓋', required: false, src: '系統自動推算' },
   { n: 9,  id: 'ExitPrice',       name: '出場價格',     fmt: 'double；未出場填 --',               required: true,  src: '使用者提供' },
   { n: 10, id: 'HoldingPeriod',   name: '持有區間',     fmt: 'integer（交易日數）',               required: false, src: 'server 計算' },
   { n: 11, id: 'NumberOfTrades',  name: '交易數量',     fmt: 'integer；-1 由 server 依設定換算',  required: true,  src: '使用者提供' },
@@ -51,8 +51,8 @@ const PLATFORM_MAPPING = [
 
 const VOLUME_MODES = [
   { mode: '腳本',   desc: '由交易腳本自行指定買賣數量，server 直接使用，不做換算', fixed: '依腳本邏輯', platform: '僅自動交易' },
-  { mode: '等額',   desc: '每筆進場使用固定 10 萬元換算股數（= ROUNDDOWN(100,000 ÷ 進場價格 ÷ Lots)）；期貨固定 1 口', fixed: '固定 10 萬元', platform: '全平台' },
-  { mode: '等量',   desc: '每筆進場固定 1 張（= 1,000 股 ÷ Lots）；期貨固定 1 口', fixed: '固定 1 張', platform: '全平台' },
+  { mode: '等額',   desc: '每筆進場使用固定 10 萬元換算股數（= ROUNDDOWN(100,000 ÷ 進場價格 ÷ Lots)）；期貨同公式換算口數（= ROUNDDOWN(100,000 ÷ 合約報價 ÷ Lots)），結果取整數口數', fixed: '固定 10 萬元', platform: '全平台' },
+  { mode: '等量',   desc: '每筆進場固定 1 張（= 1,000 股 ÷ Lots）；期貨固定 1 口', fixed: '固定 1 張 / 1 口', platform: '全平台' },
   { mode: '等比',   desc: '依「最大同時持有筆數」比例分配，每筆佔回測部位 1/N；無固定進場金額，強制搭配時間加權報酬率', fixed: '—', platform: '全平台' },
   { mode: '依紀錄', desc: '直接採用 CSV 中的 NumberOfTrades 欄位值；若 CSV 含 -1，不可選取此模式（即時錯誤提示）', fixed: '依欄位值', platform: '僅使用者匯入' },
 ]
@@ -76,15 +76,13 @@ const VALIDATION_RULES = [
   { field: '交易數量', rule: '可解析為 integer；-1 為合法值' },
   { field: '進場方向', rule: '若存在，需為 買進 / B / 賣出 / S' },
   { field: '時間先後', rule: '出場時間非 -- 時，出場時間需 ≥ 進場時間' },
-  { field: '方向一致性', rule: '若同時提供進場與出場方向，兩者需互為反向' },
 ]
 
 const ERROR_MESSAGES = [
-  { type: '必要欄位缺失', msg: '請確認交易紀錄是否包含以下欄位：商品代碼、進場時間、進場價格、出場時間、出場價格、交易數量。' },
-  { type: '欄位重複', msg: '請確認交易紀錄是否有重複的欄位。' },
+  { type: '必要欄位缺失', msg: '缺少必要欄位：[欄位1]、[欄位2]，請確認後重新上傳。' },
+  { type: '欄位重複', msg: '欄位重複：[欄位名稱]，請確認後重新上傳。' },
   { type: '格式錯誤', msg: '請確認 [欄位名稱] 的格式。' },
   { type: '時間順序錯誤', msg: '第 [行號] 筆：出場時間不得早於進場時間。' },
-  { type: '方向相同', msg: '第 [行號] 筆：進場方向與出場方向不得相同，應互為反向。' },
   { type: '出場資料不一致', msg: '第 [行號] 筆：出場時間與出場價格僅填入其中一欄，請修正後重新上傳。' },
   { type: '依紀錄模式格式錯誤', msg: 'CSV 中含有 NumberOfTrades = -1，無法使用「依紀錄」模式。請改選其他交易數量模式。' },
 ]
@@ -135,7 +133,7 @@ export default function TradeRecordsPage() {
         {section === 'csv-fields'   && <CsvFieldsSection />}
         {section === 'volume-rules' && <VolumeRulesSection />}
         {section === 'import-spec'  && <ImportSpecSection onOpenDialog={() => setShowUpload(true)} />}
-        {section === 'btreport'     && <BtReportSection onOpenDialog={() => setShowUpload(true)} />}
+        {section === 'btreport'     && <BtReportSection />}
       </div>
 
       {showUpload && <UploadBacktestDialog onClose={() => setShowUpload(false)} />}
@@ -182,7 +180,7 @@ function CsvFieldsSection() {
         </thead>
         <tbody>
           {FIELDS.map(f => (
-            <tr key={f.id} style={{ borderLeft: f.required ? '3px solid #86efac' : '3px solid transparent' }}>
+            <tr key={f.id} style={{ borderLeft: f.required ? '3px solid #86efac' : '3px solid transparent', background: f.required ? '#f0fdf4' : 'transparent' }}>
               <td style={{ ...s.td, color: 'var(--color-text-secondary)', textAlign: 'center' }}>{f.n}</td>
               <td style={s.td}><code style={s.code}>{f.id}</code></td>
               <td style={{ ...s.td, fontWeight: f.required ? 600 : 400 }}>{f.name}</td>
@@ -396,7 +394,7 @@ function ImportSpecSection({ onOpenDialog }) {
 
 // ─── §6 BTReportNew ───────────────────────────────────────────────────────────
 
-function BtReportSection({ onOpenDialog }) {
+function BtReportSection() {
   const formats = [
     { ext: '.BTReport',    ver: '舊版', how: '以舊版 UI 開啟（功能受限）', note: '點「重新回測」→ 新版回測流程' },
     { ext: '.BTReportNew', ver: '新版', how: '以新版 Web UI 直接開啟', note: '支援所有報告功能，不需重新計算' },
@@ -472,18 +470,8 @@ function BtReportSection({ onOpenDialog }) {
       </div>
 
       <InfoBox>
-        <strong>BTReportNew 匯入：</strong>不需要重新執行報表統計即可直接使用所有報告功能。匯入時可自訂回測報告標題（預設使用檔案內儲存的標題）。
+        <strong>BTReportNew 匯入：</strong>不需要重新執行報表統計即可直接使用所有報告功能。回測報告標題可於開啟後在 UI 中直接修改。
       </InfoBox>
-
-      <div style={s.demoBlock}>
-        <div style={s.demoBlockTitle}>Prototype 示範</div>
-        <p style={{ fontSize: 13, color: 'var(--color-text-secondary)', margin: '0 0 14px' }}>
-          「上傳交易紀錄」對話框示範（含交易數量設定、費用設定）。「開啟回測報告」為直接 Browse，不在此示範。
-        </p>
-        <button style={s.demoOpenBtn} onClick={onOpenDialog}>
-          ↑ 開啟上傳交易紀錄對話框
-        </button>
-      </div>
     </div>
   )
 }
@@ -565,12 +553,12 @@ const s = {
 
   table: { width: '100%', borderCollapse: 'collapse', fontSize: 13 },
   th: {
-    background: 'var(--color-bg)', padding: '9px 12px',
+    background: 'var(--color-surface)', padding: '9px 12px',
     textAlign: 'left', fontWeight: 600, fontSize: 12,
     color: 'var(--color-text-secondary)',
-    borderBottom: '1px solid var(--color-border)',
     borderTop: '1px solid var(--color-border)',
-    position: 'sticky', top: 0, zIndex: 1,
+    boxShadow: '0 1px 0 var(--color-border)',
+    position: 'sticky', top: 0, zIndex: 2,
   },
   td: { padding: '9px 12px', color: 'var(--color-text)', borderBottom: '1px solid var(--color-border)' },
   code: {
