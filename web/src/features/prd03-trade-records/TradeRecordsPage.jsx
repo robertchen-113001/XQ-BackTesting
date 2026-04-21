@@ -36,11 +36,11 @@ const PLATFORM_MAPPING = [
   { field: '出場方向',    s: '✓', r: '✓', a: '✓ 或 --' },
   { field: '出場價格',    s: '✓', r: '✓', a: '✓ 或 --' },
   { field: '持有區間',    s: '✓', r: '✓', a: '✓' },
-  { field: '交易數量',    s: '固定 -1', r: '固定 -1', a: '✓' },
-  { field: '獲利金額',    s: 'server 計算', r: 'server 計算', a: '✓' },
-  { field: '報酬率',      s: '✓', r: '✓', a: '✓' },
-  { field: '累計獲利金額',s: 'server 計算', r: 'server 計算', a: '✓' },
-  { field: '累計報酬率',  s: 'server 計算', r: 'server 計算', a: '✓' },
+  { field: '交易數量',    s: '輸入 -1，server 後製', r: '輸入 -1，server 後製', a: '後製 / 腳本' },
+  { field: '獲利金額',    s: 'server 計算', r: 'server 計算', a: 'server 計算' },
+  { field: '報酬率',      s: 'server 計算', r: 'server 計算', a: 'server 計算' },
+  { field: '累計獲利金額',s: 'server 計算', r: 'server 計算', a: 'server 計算' },
+  { field: '累計報酬率',  s: 'server 計算', r: 'server 計算', a: 'server 計算' },
   { field: '區間最高價',  s: 'server 計算', r: 'server 計算', a: 'server 計算' },
   { field: '區間最低價',  s: 'server 計算', r: 'server 計算', a: 'server 計算' },
   { field: '進場訊息',    s: '留空', r: '✓', a: '✓' },
@@ -53,17 +53,14 @@ const VOLUME_MODES = [
   { mode: '腳本',   desc: '由交易腳本自行指定買賣數量，server 直接使用，不做換算', fixed: '依腳本邏輯', platform: '僅自動交易' },
   { mode: '等額',   desc: '每筆進場使用固定 10 萬元換算股數（= ROUNDDOWN(100,000 ÷ 進場價格 ÷ Lots)）；期貨固定 1 口', fixed: '固定 10 萬元', platform: '全平台' },
   { mode: '等量',   desc: '每筆進場固定 1 張（= 1,000 股 ÷ Lots）；期貨固定 1 口', fixed: '固定 1 張', platform: '全平台' },
-  { mode: '等比',   desc: '依「最大同時持有筆數」比例分配，每筆佔回測部位 1/N；無固定進場金額，強制搭配 TWRR', fixed: '—', platform: '全平台' },
-  { mode: '依紀錄', desc: '直接採用 CSV 中的 NumberOfTrades 欄位值；若任一列為 -1，以等量補算並標記警告', fixed: '依欄位值', platform: '僅使用者匯入' },
+  { mode: '等比',   desc: '依「最大同時持有筆數」比例分配，每筆佔回測部位 1/N；無固定進場金額，強制搭配時間加權報酬率', fixed: '—', platform: '全平台' },
+  { mode: '依紀錄', desc: '直接採用 CSV 中的 NumberOfTrades 欄位值；若 CSV 含 -1，不可選取此模式（即時錯誤提示）', fixed: '依欄位值', platform: '僅使用者匯入' },
 ]
 
 const MINUS1_RULES = [
   { src: '選股中心 / 策略雷達', rule: '固定輸出 -1', convert: '依回測設定換算' },
-  { src: '量化積木', rule: '固定輸出 -1', convert: '強制等量' },
-  { src: '因子投資', rule: '固定輸出 -1', convert: '強制等比' },
-  { src: 'LocalBella', rule: '固定輸出 -1', convert: '強制等量' },
   { src: '自動交易（腳本自訂）', rule: '輸出實際數量', convert: '直接使用' },
-  { src: '使用者匯入（依紀錄模式）', rule: '採用 CSV 原始值', convert: '-1 列以等量補算' },
+  { src: '使用者匯入（依紀錄模式）', rule: 'CSV 含 -1 時不可選取', convert: '需改選其他模式' },
   { src: '使用者匯入（其他模式）', rule: '全部依選定模式重算', convert: '忽略 CSV 原始值' },
 ]
 
@@ -73,8 +70,9 @@ const VALIDATION_RULES = [
   { field: '商品代碼', rule: '非空字串' },
   { field: '進場時間', rule: '符合 yyyy/MM/dd 或 yyyy/MM/dd HH:mm:ss' },
   { field: '進場價格', rule: '可解析為 double，且 > 0' },
-  { field: '出場時間', rule: '符合時間格式，或為 --' },
-  { field: '出場價格', rule: '可解析為 double > 0，或為 --；出場時間非 -- 時不得為 --' },
+  { field: '出場時間', rule: '符合時間格式（不接受 --；使用者上傳不支援持倉中交易）' },
+  { field: '出場價格', rule: '可解析為 double，且 > 0；不得為空或 --' },
+  { field: '出場資料完整性', rule: '出場時間與出場價格須同時有值，任一缺漏視為格式錯誤' },
   { field: '交易數量', rule: '可解析為 integer；-1 為合法值' },
   { field: '進場方向', rule: '若存在，需為 買進 / B / 賣出 / S' },
   { field: '時間先後', rule: '出場時間非 -- 時，出場時間需 ≥ 進場時間' },
@@ -87,7 +85,8 @@ const ERROR_MESSAGES = [
   { type: '格式錯誤', msg: '請確認 [欄位名稱] 的格式。' },
   { type: '時間順序錯誤', msg: '第 [行號] 筆：出場時間不得早於進場時間。' },
   { type: '方向相同', msg: '第 [行號] 筆：進場方向與出場方向不得相同，應互為反向。' },
-  { type: '出場資料不一致', msg: '彈出確認框，讓使用者選擇補齊或中止。' },
+  { type: '出場資料不一致', msg: '第 [行號] 筆：出場時間與出場價格僅填入其中一欄，請修正後重新上傳。' },
+  { type: '依紀錄模式格式錯誤', msg: 'CSV 中含有 NumberOfTrades = -1，無法使用「依紀錄」模式。請改選其他交易數量模式。' },
 ]
 
 // ─── 主元件 ───────────────────────────────────────────────────────────────────
@@ -183,7 +182,7 @@ function CsvFieldsSection() {
         </thead>
         <tbody>
           {FIELDS.map(f => (
-            <tr key={f.id} style={{ background: f.required ? '#f0fdf4' : 'transparent' }}>
+            <tr key={f.id} style={{ borderLeft: f.required ? '3px solid #86efac' : '3px solid transparent' }}>
               <td style={{ ...s.td, color: 'var(--color-text-secondary)', textAlign: 'center' }}>{f.n}</td>
               <td style={s.td}><code style={s.code}>{f.id}</code></td>
               <td style={{ ...s.td, fontWeight: f.required ? 600 : 400 }}>{f.name}</td>
@@ -294,7 +293,7 @@ function VolumeRulesSection() {
       </table>
 
       <InfoBox type="warning">
-        <strong>等比模式限制：</strong>等比模式無固定進場金額，無法計算 MIR、MWRR、MOIC 等金額類算法。選擇等比模式時，報酬率算法強制鎖定「時間加權報酬率（TWRR）」，其他選項不可選取。
+        <strong>等比模式限制：</strong>等比模式無固定進場金額，無法計算金額欄位。選擇等比模式時，報酬率算法強制鎖定「時間加權報酬率」，其他選項不可選取。
       </InfoBox>
     </div>
   )
@@ -385,7 +384,7 @@ function ImportSpecSection({ onOpenDialog }) {
       <div style={s.demoBlock}>
         <div style={s.demoBlockTitle}>Prototype 示範</div>
         <p style={{ fontSize: 13, color: 'var(--color-text-secondary)', margin: '0 0 14px' }}>
-          點擊下方按鈕開啟上傳回測設定對話框，可互動示範：等比鎖定、格式錯誤清單、日期範圍警示、出場資料不一致確認框。
+          點擊下方按鈕開啟上傳回測設定對話框，可互動示範：等比鎖定、格式錯誤清單（含出場資料不一致、依紀錄模式錯誤）。
         </p>
         <button style={s.demoOpenBtn} onClick={onOpenDialog}>
           ↑ 開啟上傳交易紀錄對話框
@@ -407,7 +406,7 @@ function BtReportSection({ onOpenDialog }) {
     <div>
       <SectionHeader
         title="BTReportNew"
-        desc="與 CSV 上傳共用 XScript 編輯器選單同一入口區塊。"
+        desc="BTReport / BTReportNew 從 XScript 編輯器選單開啟，系統依副檔名決定開啟方式。「開啟回測報告」直接 Browse 選取檔案，不需設定；「上傳交易紀錄」才開啟對話框設定計算參數。"
       />
 
       {/* 選單示意 */}
@@ -423,6 +422,7 @@ function BtReportSection({ onOpenDialog }) {
             <span style={s.menuNew}>.csv</span>
           </div>
         </div>
+        <div style={s.menuNote}>「開啟回測報告」直接開啟，無對話框；「上傳交易紀錄」開啟設定對話框</div>
       </div>
 
       <h4 style={s.subTitle}>副檔名判斷</h4>
@@ -455,7 +455,8 @@ function BtReportSection({ onOpenDialog }) {
           '以舊版 UI 開啟',
           '點擊「重新回測」',
           '新版執行回測對話框',
-          '產出 .BTReportNew',
+          '產出回測報表',
+          '匯出 .BTReportNew',
         ].map((step, i) => (
           <div key={i} style={s.flowStep}>
             <div style={{
@@ -465,7 +466,7 @@ function BtReportSection({ onOpenDialog }) {
               borderColor: i >= 3 ? '#93c5fd' : '#c4b5fd',
             }}>{i + 1}</div>
             <div style={s.flowLabel}>{step}</div>
-            {i < 5 && <div style={s.flowArrow}>→</div>}
+            {i < 6 && <div style={s.flowArrow}>→</div>}
           </div>
         ))}
       </div>
@@ -477,7 +478,7 @@ function BtReportSection({ onOpenDialog }) {
       <div style={s.demoBlock}>
         <div style={s.demoBlockTitle}>Prototype 示範</div>
         <p style={{ fontSize: 13, color: 'var(--color-text-secondary)', margin: '0 0 14px' }}>
-          「開啟回測報告」與「上傳交易紀錄」共用同一對話框入口，格式由使用者選取的副檔名決定。
+          「上傳交易紀錄」對話框示範（含交易數量設定、費用設定）。「開啟回測報告」為直接 Browse，不在此示範。
         </p>
         <button style={s.demoOpenBtn} onClick={onOpenDialog}>
           ↑ 開啟上傳交易紀錄對話框
@@ -569,6 +570,7 @@ const s = {
     color: 'var(--color-text-secondary)',
     borderBottom: '1px solid var(--color-border)',
     borderTop: '1px solid var(--color-border)',
+    position: 'sticky', top: 0, zIndex: 1,
   },
   td: { padding: '9px 12px', color: 'var(--color-text)', borderBottom: '1px solid var(--color-border)' },
   code: {
@@ -588,7 +590,7 @@ const s = {
 
   subTitle: { fontSize: 14, fontWeight: 600, color: 'var(--color-text)', margin: '20px 0 10px' },
 
-  flowRow: { display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 4, marginBottom: 8 },
+  flowRow: { display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 8, marginBottom: 8 },
   flowStep: { display: 'flex', alignItems: 'center', gap: 4 },
   flowNum: {
     width: 22, height: 22, borderRadius: '50%',
@@ -597,7 +599,7 @@ const s = {
     display: 'flex', alignItems: 'center', justifyContent: 'center',
     flexShrink: 0,
   },
-  flowLabel: { fontSize: 12, color: 'var(--color-text)', maxWidth: 90, lineHeight: 1.3 },
+  flowLabel: { fontSize: 12, color: 'var(--color-text)', maxWidth: 110, lineHeight: 1.3 },
   flowArrow: { fontSize: 14, color: 'var(--color-text-secondary)', margin: '0 2px' },
 
   menuBlock: {
