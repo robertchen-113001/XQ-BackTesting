@@ -38,7 +38,7 @@
 
 | 文件 | 內容摘要 |
 |------|---------|
-| 02-流程架構 | 回測流程、逾期處理、重新回測、失敗 Retry、匯出、手動上傳 |
+| [02-流程架構](./docs/prd/02-流程架構.md) | 回測流程、逾期處理、重新回測、失敗 Retry、匯出、手動上傳 |
 | [03-交易紀錄](./docs/prd/03-交易紀錄.md) | 資料來源、交易數量規則、統一 CSV 格式、匯入/匯出規格 |
 | [04-回測設定](./docs/prd/04-回測設定.md) | 系統參數、執行回測對話框（三平台共用與差異模組）、欄位字典 |
 | 05-回測報告介面 | UI 架構、置頂區、各分析 Tab（整體統計、交易統計、週期分析、商品與交易）|
@@ -62,7 +62,24 @@
 
 ## 參考資料
 
-> ⏳ 待補充（內部 Google Docs 連結由 PM 提供）
+**UI設計**：[Figma](https://www.figma.com/design/VhyOACMz2DHC64JubAR084/%E5%9B%9E%E6%B8%AC%E5%A0%B1%E5%91%8A?node-id=103-70496&t=NRFLXK5lVUTmJbkk-0)
+
+**計算公式**：[回測報告計算2023](https://docs.google.com/document/d/1ICpAx-m9_0pqdg4AHRDNnQ3asswtsuoi0o_Bie-JQnE/edit?usp=drive_link)
+
+**欄位整理**：[回測報告欄位整理](https://docs.google.com/spreadsheets/d/1raRx_pFHPqyOY63_pzv3k5U3bFkXliqSRUHHOeGcRr4/edit?gid=1566420518#gid=1566420518)
+
+**進階分析-週期分析**：[回測報告強化-增加週期分析](https://docs.google.com/document/d/14inL5xIi7Uir1JHomFBBE5p8p55a99qG0XEhoU09Z5o/edit?tab=t.0)
+
+**進階分析-因子分析**：[XS選股因子功能](https://docs.google.com/document/d/1HKt3AoBaMDnjBaFlrxhLhtbbxytLJYszEytNX7amzTk/edit?usp=sharing)
+
+**驗證專區**：[驗證](https://drive.google.com/drive/folders/1OKMB4AoO0btwUufbqyvI2y7sdm-CS50I?usp=sharing)
+
+**會議內容**
+- [會議記錄 - XQ回測報告](https://docs.google.com/document/d/1RFta8B3RKCiKaD_OtOBW5ufySS5dDtxiQjn4i4hpAUM/edit?usp=sharing)
+- [回測報告說明20250416](https://docs.google.com/presentation/d/18XGOaoqUs1j25aNMI-UO7uWWXYxiprahDoLeW_vNaNs/edit?usp=sharing)
+- [回測報告說明20250506](https://docs.google.com/presentation/d/1MRBcYM4E36Un9NYumqrvbWB7x0C2k6DbdrLraao0l2g/edit?usp=drive_link)
+- [回測報告說明20250602](https://docs.google.com/presentation/d/1fS0VKthdGEAty1Z8fW7vZfqXirB5Njd9xMlkZoWF0_c/edit?usp=drive_link)
+- [回測報告整合優化20260108](https://docs.google.com/presentation/d/1cGootnYqW3-DrhC9VEdEMpR6INNKbmdxm4Uhhsh11E8/edit?usp=drive_link)
 
 ---
 
@@ -127,7 +144,7 @@ WorkSpace/
 ├── docs/
 │   ├── prd/
 │   │   ├── 01-概述與適用範圍.md   ← 內容已整合至本文件
-│   │   ├── 02-流程架構.md          （待處理）
+│   │   ├── 02-流程架構.md
 │   │   ├── 03-交易紀錄.md
 │   │   ├── 04-回測設定.md
 │   │   ├── 05-回測報告介面.md       （待處理）
