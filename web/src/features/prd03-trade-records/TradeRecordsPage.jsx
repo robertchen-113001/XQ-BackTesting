@@ -471,7 +471,7 @@ function BtReportSection() {
       </div>
 
       <InfoBox>
-        <strong>BTReportNew 匯入：</strong>不需要重新執行報表統計即可直接使用所有報告功能。回測報告標題可於開啟後在 UI 中直接修改。
+        <strong>BTReportNew 匯入：</strong>不需要重新執行報表統計即可直接使用所有報告功能。
       </InfoBox>
     </div>
   )
