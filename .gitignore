@@ -6,5 +6,7 @@ web/dist/
 docs/reference/
 tasks.md
 docs/prd/*
+!docs/prd/01-概述與適用範圍.md
+!docs/prd/02-流程架構.md
 !docs/prd/03-交易紀錄.md
 !docs/prd/04-回測設定.md
