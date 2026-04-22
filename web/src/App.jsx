@@ -1,9 +1,7 @@
 import { useState } from 'react'
 import AppHeader from './components/AppHeader'
-import ReportInterfacePage from './features/prd05-report-interface/ReportInterfacePage'
-import FlowArchitecturePage from './features/prd02-flow-architecture/FlowArchitecturePage'
-import BacktestSettingsPage from './features/prd04-backtest-settings/BacktestSettingsPage'
 import TradeRecordsPage from './features/prd03-trade-records/TradeRecordsPage'
+import BacktestSettingsPage from './features/prd04-backtest-settings/BacktestSettingsPage'
 
 const PRD_TABS = [
   { id: 'prd-03', label: 'PRD 03 交易紀錄' },
