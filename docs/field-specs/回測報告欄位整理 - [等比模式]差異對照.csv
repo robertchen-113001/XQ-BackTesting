@@ -1,0 +1,48 @@
+頁面 / 區塊,欄位 ID,欄位名稱,原始單位,等比處理方式,說明
+週期分析 Tab,（全部欄位）,—,—,整頁隱藏,等比強制 TWRR；週期分析全部欄位標記「不支援時間加權」，整個 Tab 移除
+置頂區,MaxInvestRateOfReturn,最大投入報酬率,%,整列隱藏,等比強制 TWRR，此算法不適用
+置頂區,TimeWeightedRateOfReturn,時間加權報酬率,% ＋ $,移除 $ 副值,保留 %；NetProfit_Amount$ 不顯示
+置頂區,MaxDrawdown,最大區間虧損,% ＋ $,移除 $ 副值,保留 %；MaxDrawdown_Amount$ 不顯示
+整體統計,MaxInvestAmount,最大投入金額,$,整卡移除,純金額欄位，等比完全空值
+整體統計,GrossProfit,毛利,% ＋ $,移除 $ 副值,保留 %；GrossProfit_Amount 顯示空白
+整體統計,GrossLoss,毛損,% ＋ $,移除 $ 副值,保留 %；GrossLoss_Amount 顯示空白
+整體統計,TotalTransactionCost,總交易成本,% ＋ $,移除 $ 副值,保留 %；TotalTransactionCost_Amount 顯示空白
+整體統計,MaxRunUp,最大區間獲利,% ＋ $,移除 $ 副值,保留 %；MaxRunUp_Amount 顯示空白
+整體統計,LargestWinTrade,最大獲利交易,% ＋ $,移除 $ 副值,保留 %；LargestWinTrade_Amount 顯示空白
+整體統計,LargestLosingTrade,最大虧損交易,% ＋ $,移除 $ 副值,保留 %；LargestLosingTrade_Amount 顯示空白
+整體統計,MaxConsecutiveProfit,最大連續獲利,% ＋ $,移除 $ 副值,保留 %；MaxConsecutiveProfit_Amount 顯示空白
+整體統計,MaxConsecutiveLoss,最大連續虧損,% ＋ $,移除 $ 副值,保留 %；MaxConsecutiveLoss_Amount 顯示空白
+整體統計,AvgTrade,平均交易,% ＋ $,移除 $ 副值,保留 %；AvgTrade_Amount 顯示空白
+整體統計,AvgWinTrade,平均獲利交易,% ＋ $,移除 $ 副值,保留 %；AvgWinTrade_Amount 顯示空白
+整體統計,AvgLossTrade,平均虧損交易,% ＋ $,移除 $ 副值,保留 %；AvgLossTrade_Amount 顯示空白
+商品統計,MaxInvestAmount,最大投入金額,$,整欄隱藏,規格標記「等比不顯示此欄位」
+商品統計,TimeWeightedRateOfReturn,時間加權報酬率,% ＋ $,雙列→單列（移除 $ 列）,僅顯示 % 列
+商品統計,MaxInvestRateOfReturn,最大投入報酬率,% ＋ $,雙列→單列（移除 $ 列）,僅顯示 % 列
+商品統計,GrossProfit,毛利,% ＋ $,雙列→單列（移除 $ 列）,僅顯示 % 列
+商品統計,GrossLoss,毛損,% ＋ $,雙列→單列（移除 $ 列）,僅顯示 % 列
+商品統計,TotalTransactionCost,總交易成本,% ＋ $,雙列→單列（移除 $ 列）,僅顯示 % 列
+商品統計,MaxRunUp,最大區間獲利,% ＋ $,雙列→單列（移除 $ 列）,僅顯示 % 列
+商品統計,MaxDrawdown,最大區間虧損,% ＋ $,雙列→單列（移除 $ 列）,僅顯示 % 列
+商品統計,LargestWinTrade,最大獲利交易,% ＋ $,雙列→單列（移除 $ 列）,僅顯示 % 列
+商品統計,LargestLosingTrade,最大虧損交易,% ＋ $,雙列→單列（移除 $ 列）,僅顯示 % 列
+商品統計,MaxConsecutiveProfit,最大連續獲利,% ＋ $,雙列→單列（移除 $ 列）,僅顯示 % 列
+商品統計,MaxConsecutiveLoss,最大連續虧損,% ＋ $,雙列→單列（移除 $ 列）,僅顯示 % 列
+商品統計,AvgTrade,平均交易,% ＋ $,雙列→單列（移除 $ 列）,僅顯示 % 列
+商品統計,AvgWinTrade,平均獲利交易,% ＋ $,雙列→單列（移除 $ 列）,僅顯示 % 列
+商品統計,AvgLossTrade,平均虧損交易,% ＋ $,雙列→單列（移除 $ 列）,僅顯示 % 列
+交易紀錄,NumberOfTrades,交易數量,股,整欄隱藏,等比模式無固定交易數量，規格標記「等比不顯示此欄位」
+交易紀錄,ReturnRate,報酬率,% ＋ $,雙列→單列（移除 $ 列）,僅顯示 %；ProfitLoss$ 列移除（整體策略 ＆ 單商品皆適用）
+交易紀錄,NetProfit,累積報酬率,% ＋ $,雙列→單列（移除 $ 列）,僅顯示 %；NetProfit_Amount$ 列移除（僅單商品視圖）
+每日報表,InvestAmount,投入金額,$,整欄隱藏,規格標記「等比不顯示此欄位」
+每日報表,MaxInvestAmount,最大投入金額,$,整欄隱藏,規格標記「等比不顯示此欄位」
+每日報表,NetProfit,累積報酬率,% ＋ $,雙列→單列（移除 $ 列）,僅顯示 %；NetProfit_Amount$ 列移除
+每日報表,RN,當日報酬率,% ＋ $,雙列→單列（移除 $ 列）,僅顯示 %；RN_Amount$ 列移除
+每日報表,Drawdown,區間虧損,% ＋ $,雙列→單列（移除 $ 列）,僅顯示 %；Drawdown_Amount$ 列移除
+每日報表,MaxDrawdown,最大區間虧損,% ＋ $,雙列→單列（移除 $ 列）,僅顯示 %；MaxDrawdown_Amount$ 列移除
+圖-整體統計,副圖2（資金圖）,MaxInvestAmount / InvestAmount,$,整個副圖移除,等比不支援此副圖；最大投入金額 ＆ 投入金額折線均移除
+圖-整體統計,主圖 NetProfit_Amount,淨值折線,$,圖層隱藏,等比不支援此圖層；主圖只保留 NetProfit（%）面積折線
+圖-整體統計,副圖1 MaxDrawdown_Amount,最大區間虧損面積,$,切換為 % 資料,等比改用 MaxDrawdown（%）資料繪製
+圖-整體統計,副圖1 Drawdown_Amount,區間虧損折線,$,切換為 % 資料,等比改用 Drawdown（%）資料繪製
+圖-商品與交易,側邊欄報酬率圖 NetProfit_Amount,單商品累積淨利 $ Legend,$,Legend / 圖層隱藏,等比不顯示 $ legend，僅保留 % 曲線
+圖-商品與交易,商品績效報酬率圖 NetProfit_Amount,單商品累積淨利折線,$,圖層隱藏,等比不支援此圖層
+圖-商品與交易,商品績效副圖 MaxDrawdown_Amount,最大區間虧損,$,切換為 % 資料,等比改用 MaxDrawdown（%）資料繪製

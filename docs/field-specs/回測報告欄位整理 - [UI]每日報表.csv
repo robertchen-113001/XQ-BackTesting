@@ -1,0 +1,24 @@
+欄位分類,欄位ID,欄位名稱,單位,副欄位ID,副單位,顯示規則
+每日報表,TDate,日期,,,,YYYY-MM-DD
+每日報表,NetProfit,累積報酬率,%,NetProfit_Amount,$,"雙列：%在上，$在下，等比時改為單列顯示%
+報酬率：正紅字、負綠字
+排序：% → $
+等比不顯示$，改為單列"
+每日報表,RN,當日報酬率,%,RN_Amount,$,"雙列：%在上，$在下，等比時改為單列顯示%
+報酬率：正紅字、負綠字
+排序：% → $
+等比不顯示$，改為單列"
+每日報表,Drawdown,區間虧損,%,Drawdown_Amount,$,"雙列：%在上，$在下，等比時改為單列顯示%
+報酬率：正紅字、負綠字
+排序：% → $
+等比不顯示$，改為單列"
+每日報表,MaxDrawdown,最大區間虧損,%,MaxDrawdown_Amount,$,"雙列：%在上，$在下，等比時改為單列顯示%
+報酬率：正紅字、負綠字
+排序：% → $
+等比不顯示$，改為單列"
+每日報表,InvestAmount,投入金額,$,,,等比不顯示此欄位
+每日報表,MaxInvestAmount,最大投入金額,$,,,等比不顯示此欄位
+每日報表,TodayEntryTradeCount,進場筆數,次,,,
+每日報表,TodayExitTradeCount,出場筆數,次,,,
+每日報表,UnRealizedTradeCount,持倉筆數,次,,,
+每日報表,UnRealizedSymbolCount,持倉商品數,檔,,,
