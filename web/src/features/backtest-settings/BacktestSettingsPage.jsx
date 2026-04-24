@@ -16,7 +16,7 @@ export default function BacktestSettingsPage() {
     <div style={s.page}>
       {/* 頁面標題 */}
       <div style={s.pageHeader}>
-        <h2 style={s.pageTitle}>PRD 04 — 回測設定</h2>
+        <h2 style={s.pageTitle}>回測設定</h2>
         <p style={s.pageDesc}>
           設定流向：① 系統參數（全域預設）→ ② 執行回測對話框（每次微調）→ ③ 報告「交易設定」顯示本次參數
         </p>

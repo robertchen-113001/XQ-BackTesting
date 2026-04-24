@@ -41,7 +41,7 @@ export default function FieldCalculationPage() {
   return (
     <div style={{ padding: 32, maxWidth: 900, margin: '0 auto' }}>
       <h2 style={{ fontSize: 20, fontWeight: 700, color: 'var(--color-text)', marginBottom: 6 }}>
-        PRD 07 — 欄位計算規格
+        欄位計算規格
       </h2>
       <p style={{ color: 'var(--color-text-secondary)', marginBottom: 28, fontSize: 14 }}>
         報表各計算欄位的公式定義與每日報表欄位來源

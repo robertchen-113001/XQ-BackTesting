@@ -7,8 +7,9 @@ const MOCK_CONFIG = {
     { label: '回測區間', value: '2022/09/01 - 2023/02/28' },
     { label: '資料頻率', value: '日線' },
     { label: '初始資金', value: '$1,000,000' },
-    { label: '交易數量模式', value: '等額' },
+    { label: '每筆交易', value: '等額' },
     { label: '報酬率算法', value: '時間加權' },
+    { label: '基準指標', value: '加權指數' },
     { label: '交易方向', value: '多' },
   ],
   cost: [

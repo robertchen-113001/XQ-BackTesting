@@ -105,7 +105,7 @@ export default function TradeRecordsPage() {
       {/* Page header */}
       <div style={s.pageHeader}>
         <div>
-          <h2 style={s.pageTitle}>PRD 03 — 交易紀錄格式規範</h2>
+          <h2 style={s.pageTitle}>交易紀錄格式規範</h2>
           <p style={s.pageSubtitle}>統一 CSV 欄位定義（server 輸入 / 輸出共用）・CSV 匯入規格・BTReportNew 相容規格</p>
         </div>
       </div>

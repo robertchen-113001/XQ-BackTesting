@@ -81,9 +81,9 @@ export default function SystemParamsPanel() {
         <fieldset style={styles.fieldset}>
           <legend style={styles.legend}>回測設定</legend>
 
-          {/* 交易數量 */}
+          {/* 每筆交易 */}
           <div style={styles.row}>
-            <label style={styles.label}>交易數量</label>
+            <label style={styles.label}>每筆交易</label>
             <div style={styles.radioGroup}>
               {VOLUME_TYPES[platform].map(v => (
                 <label key={v} style={styles.radioLabel}>
@@ -146,7 +146,7 @@ export default function SystemParamsPanel() {
 
         {/* 基準指標 */}
         <fieldset style={styles.fieldset}>
-          <legend style={styles.legend}>績效比較圖 — 基準指標</legend>
+          <legend style={styles.legend}>基準指標</legend>
           <div style={styles.row}>
             <label style={styles.label}>基準指標</label>
             <select
@@ -159,7 +159,7 @@ export default function SystemParamsPanel() {
               ))}
             </select>
           </div>
-          <p style={styles.hint}>基準指標用於計算 beta 等欄位，並自動顯示於績效圖。選項由系統維護（10 檔），使用者不可自訂標的。</p>
+          <p style={styles.hint}>基準指標用於計算「貝他」與「超額報酬」等欄位，並自動顯示於整體統計圖與商品統計圖的績效比較折線。選項由系統維護（10 檔），使用者不可自訂標的。</p>
         </fieldset>
 
         {/* 疊加指標 */}

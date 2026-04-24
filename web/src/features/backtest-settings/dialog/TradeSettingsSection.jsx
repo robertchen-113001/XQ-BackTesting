@@ -1,4 +1,4 @@
-import { VOLUME_TYPES, VOLUME_LABELS, RETURN_ALGORITHMS, ENTRY_ORDER_TYPES } from '../constants'
+import { VOLUME_TYPES, VOLUME_LABELS, RETURN_ALGORITHMS, ENTRY_ORDER_TYPES, BENCHMARK_INDICES } from '../constants'
 
 export default function TradeSettingsSection({ platform, form, onChange }) {
   const isProportional = form.volumeType === '等比'
@@ -53,9 +53,9 @@ export default function TradeSettingsSection({ platform, form, onChange }) {
           </span>
         </div>
 
-        {/* 交易數量 */}
+        {/* 每筆交易 */}
         <div style={s.row}>
-          <label style={s.fixedLabel}>交易數量</label>
+          <label style={s.fixedLabel}>每筆交易</label>
           <div style={s.selectWrap}>
             <select
               value={form.volumeType}
@@ -94,6 +94,20 @@ export default function TradeSettingsSection({ platform, form, onChange }) {
         {isProportional && (
           <p style={s.hint}>⚠️ 等比模式無固定進場金額，強制使用「時間加權報酬率」。</p>
         )}
+
+        {/* 基準指標 */}
+        <div style={s.row}>
+          <label style={s.fixedLabel}>基準指標</label>
+          <select
+            value={form.benchmarkIndex}
+            onChange={e => onChange('benchmarkIndex', e.target.value)}
+            style={s.select}
+          >
+            {BENCHMARK_INDICES.map(idx => (
+              <option key={idx} value={idx}>{idx}</option>
+            ))}
+          </select>
+        </div>
 
         {/* 進場順序 */}
         <div style={s.row}>

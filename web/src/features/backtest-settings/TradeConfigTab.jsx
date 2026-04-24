@@ -36,6 +36,7 @@ const MOCK_REPORTS = {
     futuresTaxRate: 0.3,
     volumeType: '等量',
     returnAlgorithm: '時間加權報酬率',
+    benchmarkIndex: '加權指數',
     entryOrderType: '股號',
     futuresMarginRate: 13.5,
     maxConcurrentTrades: 10,
@@ -74,6 +75,7 @@ const MOCK_REPORTS = {
     futuresTaxRate: 0.3,
     volumeType: '等量',
     returnAlgorithm: '時間加權報酬率',
+    benchmarkIndex: '加權指數',
     entryOrderType: '時間',
     futuresMarginRate: 13.5,
     maxConcurrentTrades: 10,
@@ -108,6 +110,7 @@ const MOCK_REPORTS = {
     futuresTaxRate: 0.3,
     volumeType: '腳本',
     returnAlgorithm: '時間加權報酬率',
+    benchmarkIndex: '加權指數',
     entryOrderType: '時間',
     futuresMarginRate: 13.5,
     maxConcurrentTrades: 10,
@@ -196,7 +199,7 @@ function TopBar({ report }) {
   return (
     <div style={s.topBar}>
       <span style={s.topBarItem}>
-        <span style={s.topBarLabel}>交易數量</span>
+        <span style={s.topBarLabel}>每筆交易</span>
         <span style={s.topBarValue}>{report.volumeType}</span>
       </span>
       <span style={s.topBarDivider}>|</span>
@@ -355,6 +358,7 @@ function TradeSettingsPanel({ report }) {
       <Row label="期貨" value={`手續費 ${report.futuresFee}元/口　交易稅 ${report.futuresTaxRate}%`} />
 
       <div style={s.sectionLabel}>其他設定</div>
+      <Row label="基準指標" value={report.benchmarkIndex} />
       <Row label="進場順序" value={report.entryOrderType} />
       <Row label="期貨保證金" value={`${report.futuresMarginRate}%`} />
       <Row

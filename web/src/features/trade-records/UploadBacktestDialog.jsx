@@ -87,7 +87,7 @@ export default function UploadBacktestDialog({ onClose }) {
           <div style={s.section}>
             <div style={s.sectionTitle}>交易設定</div>
             <div style={s.fieldRow}>
-              <label style={s.label}>交易數量</label>
+              <label style={s.label}>每筆交易</label>
               <select style={s.select} value={volumeType} onChange={e => handleVolumeChange(e.target.value)}>
                 {VOLUME_TYPES.map(v => <option key={v} value={v}>{v}</option>)}
               </select>

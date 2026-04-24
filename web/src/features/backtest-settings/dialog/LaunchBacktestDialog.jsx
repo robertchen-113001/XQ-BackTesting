@@ -120,8 +120,9 @@ function FormSummary({ platform, form }) {
       {show && (
         <pre style={s.summaryPre}>
           平台：{platform}{'\n'}
-          交易數量：{form.volumeType}{form.volumeType === '等額' ? '（10萬元）' : form.volumeType === '等量' ? '（1張）' : ''}{'\n'}
+          每筆交易：{form.volumeType}{form.volumeType === '等額' ? '（10萬元）' : form.volumeType === '等量' ? '（1張）' : ''}{'\n'}
           報酬率算法：{form.returnAlgorithm}{form.volumeType === '等比' ? ' ← 鎖定' : ''}{'\n'}
+          基準指標：{form.benchmarkIndex}{'\n'}
           最大同時交易筆數：{form.enableMaxConcurrent ? form.maxConcurrentTrades + ' 筆' : '停用'}{'\n'}
           進場順序：{form.entryOrderType}{'\n'}
           執行頻率：{form.frequency}

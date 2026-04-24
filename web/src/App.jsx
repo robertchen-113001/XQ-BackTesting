@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import AppHeader from './components/AppHeader'
-import TradeRecordsPage from './features/prd03-trade-records/TradeRecordsPage'
-import BacktestSettingsPage from './features/prd04-backtest-settings/BacktestSettingsPage'
+import TradeRecordsPage from './features/trade-records/TradeRecordsPage'
+import BacktestSettingsPage from './features/backtest-settings/BacktestSettingsPage'
+import ExportPage from './features/export/ExportPage'
 
 const PRD_TABS = [
-  { id: 'prd-03', label: 'PRD 03 交易紀錄' },
-  { id: 'prd-04', label: 'PRD 04 回測設定' },
+  { id: 'trade-records', label: '交易紀錄' },
+  { id: 'backtest-settings', label: '回測設定' },
+  { id: 'export', label: '匯出功能' },
 ]
 
 function TabBar({ activeTabId, onSelect }) {
@@ -32,7 +34,7 @@ function TabBar({ activeTabId, onSelect }) {
 }
 
 export default function App() {
-  const [activeTabId, setActiveTabId] = useState('prd-03')
+  const [activeTabId, setActiveTabId] = useState('trade-records')
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: 'var(--color-bg)' }}>
@@ -40,8 +42,9 @@ export default function App() {
       <TabBar activeTabId={activeTabId} onSelect={setActiveTabId} />
       <div style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
         <div style={{ flex: 1, overflow: 'auto' }}>
-          {activeTabId === 'prd-03' && <TradeRecordsPage />}
-          {activeTabId === 'prd-04' && <BacktestSettingsPage />}
+          {activeTabId === 'trade-records' && <TradeRecordsPage />}
+          {activeTabId === 'backtest-settings' && <BacktestSettingsPage />}
+          {activeTabId === 'export' && <ExportPage />}
         </div>
       </div>
     </div>

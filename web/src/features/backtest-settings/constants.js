@@ -1,4 +1,4 @@
-// PRD 04 — 回測設定 共用常數定義
+// 回測設定 共用常數定義
 
 export const PLATFORMS = ['選股中心', '策略雷達', '自動交易']
 
@@ -99,6 +99,7 @@ export function buildDialogDefaults(platform) {
     maxConcurrentTrades: 10,
     volumeType: '等量',
     returnAlgorithm: '時間加權報酬率',
+    benchmarkIndex: '加權指數',
     entryOrderType: ENTRY_ORDER_TYPES[platform].default,
     // 交易成本
     stockFeeRate: 0.1425,
