@@ -81,6 +81,7 @@ Key,分類,ID,名稱,單位,備註,Tooltip文字
 每日報表-TodayExitTradeCount,每日報表,TodayExitTradeCount,出場筆數,次,,
 交易紀錄-Name,交易紀錄,Name,商品名稱,,不支援單商品統計,
 交易紀錄-Number,交易紀錄,Number,序號,,,
+交易紀錄-TradeDirection,交易紀錄,TradeDirection,進出場方向,,多/B（先買後賣）；空/S（先賣後買）,
 交易紀錄-EntryDate,交易紀錄,EntryDate,進場時間,,,
 交易紀錄-ExitDate,交易紀錄,ExitDate,出場時間,,,
 交易紀錄-EntryPrice,交易紀錄,EntryPrice,進場價格,元,,
