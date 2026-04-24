@@ -10,7 +10,7 @@
 |------|------|
 | **語言** | 所有文件、注解、回覆使用繁體中文（台灣用語）。禁用：項目→專案、用戶→使用者、信息→資訊、默認→預設、激活→啟用 |
 | **角色** | 以資深 PM + 系統架構師角色行事；語氣專業、客觀 |
-| **唯讀區域** | `docs/reference/` 內容不可修改；撰寫或修改 PRD 時，不得改變原始 Spec 的計算邏輯 |
+| **唯讀區域** | `docs/reference/` 及 `docs/field-specs/` 內容不可修改；撰寫或修改 PRD 時，不得改變原始 Spec 的計算邏輯 |
 | **連動更新** | 修改 PRD 時必須同步更新 README（如適用）|
 | **版控** | 絕對不執行 `git push`，推送由使用者手動完成 |
 | **等比限制** | 交易數量選「等比」時，強制使用 TWRR；MIR、MWRR、MOIC 均不適用（等比模式無固定進場金額）|
@@ -30,13 +30,13 @@
 
 | 模組 | PRD 文件 |
 |------|---------|
-| 概述與適用範圍 | `README.md`（01 已整合至此）|
-| 流程架構 | `docs/prd/02-流程架構.md` |
-| 交易紀錄格式規範（CSV 公版欄位、匯入/匯出 CSV、BTReportNew）| `docs/prd/03-交易紀錄.md` |
-| 回測設定 | `docs/prd/04-回測設定.md` |
-| 回測報告介面 | `docs/prd/05-回測報告介面.md` |
-| 匯出功能（XLSX 完整報告；CSV 欄位定義見 PRD 03）| `docs/prd/06-匯出功能.md` |
-| 欄位計算規格 | `docs/prd/07-欄位計算.md` |
+| 概述與適用範圍 | `README.md` |
+| 流程架構 | `docs/modules/流程架構.md` |
+| 回測設定 | `docs/modules/回測設定.md` |
+| 交易紀錄格式規範（CSV 公版欄位、匯入/匯出 CSV、BTReportNew）| `docs/modules/交易紀錄.md` |
+| 匯出功能（XLSX 完整報告；CSV 欄位定義見交易紀錄 §2）| `docs/modules/匯出功能.md` |
+| 介面設計 | `docs/modules/介面設計.md` |
+| 欄位計算規格 | `docs/modules/欄位計算.md` |
 
 ---
 
@@ -47,4 +47,4 @@
 | 前端 | Vite + React 18 + React Router v6（JSX，非 TypeScript）|
 | 前端目錄 | `web/`（執行：`cd web && npm run dev`）|
 | 前端定位 | **規格示意 Prototype**：以清晰排版呈現開發項目，讓審閱者快速理解規格，非完善 UI 設計 |
-| PRD | `docs/prd/`（格式：`XX-名稱.md`）|
+| PRD | `docs/modules/`（格式：`名稱.md`）|
