@@ -8,21 +8,20 @@ const FIELDS = [
   { n: 2,  id: 'Code',            name: '商品代碼',     fmt: 'XQ 商品代碼（如 2330.TW）',         required: true,  src: '使用者提供' },
   { n: 3,  id: 'Number',          name: '序號',         fmt: 'integer，同一商品遞增',              required: false, src: '系統自動產生' },
   { n: 4,  id: 'EntryDate',       name: '進場時間',     fmt: 'yyyy/MM/dd 或 yyyy/MM/dd HH:mm:ss', required: true,  src: '使用者提供' },
-  { n: 5,  id: 'EntryDirection',  name: '進場方向',     fmt: '買進 / B / 賣出 / S',               required: false, src: '預設「買進」' },
+  { n: 5,  id: 'TradeDirection',  name: '進出場方向',   fmt: '多 / B（先買後賣）；空 / S（先賣後買）', required: false, src: '預設「多」' },
   { n: 6,  id: 'EntryPrice',      name: '進場價格',     fmt: 'double',                           required: true,  src: '使用者提供' },
   { n: 7,  id: 'ExitDate',        name: '出場時間',     fmt: '同進場；未出場填 --',               required: true,  src: '使用者提供' },
-  { n: 8,  id: 'ExitDirection',   name: '出場方向',     fmt: '進場方向的反向，由系統計算；使用者填入值會被覆蓋', required: false, src: '系統自動推算' },
-  { n: 9,  id: 'ExitPrice',       name: '出場價格',     fmt: 'double；未出場填 --',               required: true,  src: '使用者提供' },
-  { n: 10, id: 'HoldingPeriod',   name: '持有區間',     fmt: 'integer（交易日數）',               required: false, src: 'server 計算' },
-  { n: 11, id: 'NumberOfTrades',  name: '交易數量',     fmt: 'integer；-1 由 server 依設定換算',  required: true,  src: '使用者提供' },
-  { n: 12, id: 'ProfitLoss',      name: '獲利金額',     fmt: 'double，ROUNDDOWN 至整數',          required: false, src: 'server 計算' },
-  { n: 13, id: 'ReturnRate',      name: '報酬率',       fmt: 'double，保留 6 位小數',             required: false, src: 'server 計算' },
-  { n: 14, id: 'NetProfit_Amount',name: '累計獲利金額', fmt: 'double，ROUNDDOWN 至整數',          required: false, src: 'server 計算' },
-  { n: 15, id: 'NetProfit',       name: '累積報酬率',   fmt: 'double，保留 6 位小數',             required: false, src: 'server 計算' },
-  { n: 16, id: 'PeriodHigh',      name: '區間最高價',   fmt: 'double，持有區間內最高成交價',       required: false, src: 'server 計算' },
-  { n: 17, id: 'PeriodLow',       name: '區間最低價',   fmt: 'double，持有區間內最低成交價',       required: false, src: 'server 計算' },
-  { n: 18, id: 'EntrySignal',     name: '進場訊息',     fmt: 'string，策略觸發條件說明',          required: false, src: '使用者提供或策略產生' },
-  { n: 19, id: 'ExitSignal',      name: '出場訊息',     fmt: 'string，出場條件（如 停利 8 %）',   required: false, src: '使用者提供或策略產生' },
+  { n: 8,  id: 'ExitPrice',       name: '出場價格',     fmt: 'double；未出場填 --',               required: true,  src: '使用者提供' },
+  { n: 9,  id: 'HoldingPeriod',   name: '持有區間',     fmt: 'integer（交易日數）',               required: false, src: 'server 計算' },
+  { n: 10, id: 'NumberOfTrades',  name: '交易數量',     fmt: 'integer；-1 由 server 依設定換算',  required: true,  src: '使用者提供' },
+  { n: 11, id: 'ProfitLoss',      name: '獲利金額',     fmt: 'double，ROUNDDOWN 至整數',          required: false, src: 'server 計算' },
+  { n: 12, id: 'ReturnRate',      name: '報酬率',       fmt: 'double，保留 6 位小數',             required: false, src: 'server 計算' },
+  { n: 13, id: 'NetProfit_Amount',name: '累計獲利金額', fmt: 'double，ROUNDDOWN 至整數',          required: false, src: 'server 計算' },
+  { n: 14, id: 'NetProfit',       name: '累積報酬率',   fmt: 'double，保留 6 位小數',             required: false, src: 'server 計算' },
+  { n: 15, id: 'PeriodHigh',      name: '區間最高價',   fmt: 'double，持有區間內最高成交價',       required: false, src: 'server 計算' },
+  { n: 16, id: 'PeriodLow',       name: '區間最低價',   fmt: 'double，持有區間內最低成交價',       required: false, src: 'server 計算' },
+  { n: 17, id: 'EntrySignal',     name: '進場訊息',     fmt: 'string，策略觸發條件說明',          required: false, src: '使用者提供或策略產生' },
+  { n: 18, id: 'ExitSignal',      name: '出場訊息',     fmt: 'string，出場條件（如 停利 8 %）',   required: false, src: '使用者提供或策略產生' },
 ]
 
 const PLATFORM_MAPPING = [
@@ -30,10 +29,9 @@ const PLATFORM_MAPPING = [
   { field: '商品代碼',    s: '✓', r: '✓', a: '✓' },
   { field: '序號',        s: '✓', r: '✓', a: '✓' },
   { field: '進場時間',    s: '日期', r: '日期', a: '含時分秒' },
-  { field: '進場方向',    s: '✓', r: '✓', a: '✓' },
+  { field: '進出場方向',  s: '✓', r: '✓', a: '✓' },
   { field: '進場價格',    s: '✓', r: '✓', a: '✓' },
   { field: '出場時間',    s: '日期', r: '日期', a: '含時分秒 / --' },
-  { field: '出場方向',    s: '✓', r: '✓', a: '✓ 或 --' },
   { field: '出場價格',    s: '✓', r: '✓', a: '✓ 或 --' },
   { field: '持有區間',    s: '✓', r: '✓', a: '✓' },
   { field: '交易數量',    s: '輸入 -1，server 後製', r: '輸入 -1，server 後製', a: '後製 / 腳本' },
@@ -74,7 +72,7 @@ const VALIDATION_RULES = [
   { field: '出場價格', rule: '可解析為 double，且 > 0；不得為空或 --' },
   { field: '出場資料完整性', rule: '出場時間與出場價格須同時有值，任一缺漏視為格式錯誤' },
   { field: '交易數量', rule: '可解析為 integer；-1 為合法值' },
-  { field: '進場方向', rule: '若存在，需為 買進 / B / 賣出 / S' },
+  { field: '進出場方向', rule: '若存在，需為 多 / B / 空 / S' },
   { field: '時間先後', rule: '出場時間非 -- 時，出場時間需 ≥ 進場時間' },
 ]
 
@@ -230,7 +228,7 @@ function CsvFieldsSection() {
       </div>
 
       <InfoBox>
-        <strong>選股中心訊息欄位：</strong>選股中心原始格式僅有單欄「訊息」（語意為出場條件），統一對應至第 19 欄「出場訊息」；第 18 欄「進場訊息」留空。
+        <strong>選股中心訊息欄位：</strong>選股中心原始格式僅有單欄「訊息」（語意為出場條件），統一對應至第 18 欄「出場訊息」；第 17 欄「進場訊息」留空。
       </InfoBox>
     </div>
   )
@@ -511,8 +509,8 @@ const s = {
     display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start',
     padding: '20px 28px 0',
   },
-  pageTitle: { fontSize: 20, fontWeight: 700, color: 'var(--color-text)', margin: 0 },
-  pageSubtitle: { fontSize: 14, color: 'var(--color-text-secondary)', margin: '4px 0 0' },
+  pageTitle: { fontSize: 22, fontWeight: 700, color: 'var(--color-text)', margin: 0 },
+  pageSubtitle: { fontSize: 15, color: 'var(--color-text-secondary)', margin: '4px 0 0' },
 
   tabBar: {
     display: 'flex', gap: 0,
@@ -538,8 +536,8 @@ const s = {
   content: { flex: 1, overflowY: 'auto', padding: '0 28px 40px' },
 
   sectionHeader: { marginBottom: 20 },
-  sectionTitle: { fontSize: 17, fontWeight: 700, color: 'var(--color-text)', margin: '0 0 6px' },
-  sectionDesc: { fontSize: 14, color: 'var(--color-text-secondary)', margin: 0, lineHeight: 1.6 },
+  sectionTitle: { fontSize: 18, fontWeight: 700, color: 'var(--color-text)', margin: '0 0 6px' },
+  sectionDesc: { fontSize: 15, color: 'var(--color-text-secondary)', margin: 0, lineHeight: 1.6 },
 
   legendRow: { display: 'flex', gap: 8, marginBottom: 14, flexWrap: 'wrap' },
   chip: {
@@ -551,7 +549,7 @@ const s = {
   th: {
     position: 'sticky', top: 0, zIndex: 2,
     background: '#ffffff', padding: '9px 12px',
-    textAlign: 'left', fontWeight: 600, fontSize: 13,
+    textAlign: 'left', fontWeight: 600, fontSize: 14,
     color: 'var(--color-text-secondary)',
     borderTop: '1px solid var(--color-border)',
     boxShadow: 'inset 0 -1px 0 var(--color-border)',

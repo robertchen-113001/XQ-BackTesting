@@ -47,16 +47,16 @@ export const DEFAULT_FREQUENCY = {
 }
 
 export const BENCHMARK_INDICES = [
-  '加權指數',
-  '櫃買指數',
-  '標普500',
-  '納斯達克',
-  '費城半導體',
-  '道瓊工業',
-  '日經225',
-  '恆生指數',
-  '滬深300',
-  '韓國綜合',
+  { name: '加權指數',   code: 'TSE.TW' },
+  { name: '櫃買指數',   code: 'OTC.TW' },
+  { name: '標普500',    code: 'GSPC.FS' },
+  { name: '納斯達克',   code: 'IXIC.FS' },
+  { name: '費城半導體', code: 'SOXX.FS' },
+  { name: '道瓊工業',   code: 'DJI.FS' },
+  { name: '日經225',    code: 'N225.FS' },
+  { name: '恆生指數',   code: 'HSI.FS' },
+  { name: '滬深300',    code: '000300.FS' },
+  { name: '韓國綜合',   code: 'KS11.FS' },
 ]
 
 export const OVERLAY_OPTIONS = [

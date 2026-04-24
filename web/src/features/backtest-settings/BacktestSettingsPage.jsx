@@ -70,13 +70,13 @@ const s = {
     borderBottom: '1px solid var(--color-border)',
   },
   pageTitle: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: 700,
     color: 'var(--color-text)',
     margin: '0 0 4px 0',
   },
   pageDesc: {
-    fontSize: 14,
+    fontSize: 15,
     color: 'var(--color-text-secondary)',
     margin: '0 0 12px 0',
   },

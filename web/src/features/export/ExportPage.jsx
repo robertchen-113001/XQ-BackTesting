@@ -24,12 +24,12 @@ const XLSX_SHEETS = [
 
 function SectionNote({ children, type = 'info' }) {
   const c = { info: ['#f0f5ff','#adc6ff','#2f54eb'], warning: ['#fff7e6','#ffd591','#d46b08'], tip: ['#f6ffed','#b7eb8f','#389e0d'] }[type]
-  return <div style={{ background: c[0], border: `1px solid ${c[1]}`, borderRadius: 6, padding: '6px 12px', fontSize: 12, color: c[2], marginBottom: 8 }}>{children}</div>
+  return <div style={{ background: c[0], border: `1px solid ${c[1]}`, borderRadius: 6, padding: '6px 12px', fontSize: 14, color: c[2], marginBottom: 8 }}>{children}</div>
 }
 
 function BlockTitle({ children }) {
   return (
-    <div style={{ fontWeight: 700, fontSize: 12, color: '#555', margin: '14px 0 6px', display: 'flex', alignItems: 'center', gap: 6 }}>
+    <div style={{ fontWeight: 700, fontSize: 14, color: '#555', margin: '14px 0 6px', display: 'flex', alignItems: 'center', gap: 6 }}>
       <span style={{ width: 3, height: 12, background: '#1677ff', borderRadius: 2, display: 'inline-block' }} />
       {children}
     </div>
@@ -39,9 +39,9 @@ function BlockTitle({ children }) {
 function ChartBox({ title, items }) {
   return (
     <div style={{ border: '1.5px dashed #d9d9d9', borderRadius: 6, background: '#fafafa', padding: '10px 14px', marginBottom: 8 }}>
-      <div style={{ fontWeight: 600, fontSize: 12, color: '#555', marginBottom: 4 }}>{title}</div>
+      <div style={{ fontWeight: 600, fontSize: 14, color: '#555', marginBottom: 4 }}>{title}</div>
       {items.map((item, i) => (
-        <div key={i} style={{ fontSize: 11, color: '#888', lineHeight: 1.7 }}>
+        <div key={i} style={{ fontSize: 14, color: '#888', lineHeight: 1.7 }}>
           <span style={{ color: '#ccc', marginRight: 5 }}>▸</span>{item}
         </div>
       ))}
@@ -52,8 +52,8 @@ function ChartBox({ title, items }) {
 function KVSection({ title, rows }) {
   return (
     <div style={{ marginBottom: 12 }}>
-      <div style={{ fontWeight: 700, fontSize: 11, color: '#fff', background: '#595959', padding: '3px 10px', borderRadius: '4px 4px 0 0' }}>{title}</div>
-      <table style={{ borderCollapse: 'collapse', width: '100%', fontSize: 11 }}>
+      <div style={{ fontWeight: 700, fontSize: 13, color: '#fff', background: '#595959', padding: '3px 10px', borderRadius: '4px 4px 0 0' }}>{title}</div>
+      <table style={{ borderCollapse: 'collapse', width: '100%', fontSize: 13 }}>
         <tbody>
           {rows.map(([k, v], i) => (
             <tr key={i} style={{ background: i % 2 === 0 ? '#fafafa' : '#fff' }}>
@@ -75,10 +75,10 @@ function StatsTable({ headerCols, rows }) {
   const thStyle = (omit) => ({
     padding: '5px 10px', border: '1px solid #e0e0e0', fontWeight: 700,
     background: '#f5f5f5', whiteSpace: 'nowrap', textAlign: 'left',
-    color: omit ? '#bbb' : '#333', fontSize: 11,
+    color: omit ? '#bbb' : '#333', fontSize: 13,
   })
   const tdStyle = (omit, right) => ({
-    padding: '4px 10px', border: '1px solid #f0f0f0', fontSize: 11,
+    padding: '4px 10px', border: '1px solid #f0f0f0', fontSize: 13,
     whiteSpace: 'nowrap', textAlign: right ? 'right' : 'left',
     color: omit ? '#bbb' : '#444',
   })
@@ -90,7 +90,7 @@ function StatsTable({ headerCols, rows }) {
   }
   return (
     <div style={{ overflowX: 'auto', border: '1px solid #e8e8e8', borderRadius: 6, marginBottom: 12 }}>
-      <table style={{ borderCollapse: 'collapse', fontSize: 11, minWidth: '100%' }}>
+      <table style={{ borderCollapse: 'collapse', fontSize: 13, minWidth: '100%' }}>
         <thead>
           <tr>
             {headerCols.map((col, i) => (
@@ -105,7 +105,7 @@ function StatsTable({ headerCols, rows }) {
           {rows.map((row, i) =>
             row.cat ? (
               <tr key={i}>
-                <td colSpan={999} style={{ background: '#efefef', fontWeight: 700, padding: '4px 10px', color: '#333', border: '1px solid #e0e0e0', fontSize: 11 }}>
+                <td colSpan={999} style={{ background: '#efefef', fontWeight: 700, padding: '4px 10px', color: '#333', border: '1px solid #e0e0e0', fontSize: 13 }}>
                   {row.cat}
                 </td>
               </tr>
@@ -137,14 +137,14 @@ function StatsTable({ headerCols, rows }) {
 function GroupTable({ pinnedCol, pinnedVal, groups, dataRows }) {
   const thG = (omit) => ({
     padding: '4px 8px', border: '1px solid #e0e0e0', fontWeight: 700, textAlign: 'center',
-    background: omit ? '#f5f5f5' : '#ebebeb', color: omit ? '#bbb' : '#444', fontSize: 11, whiteSpace: 'nowrap',
+    background: omit ? '#f5f5f5' : '#ebebeb', color: omit ? '#bbb' : '#444', fontSize: 13, whiteSpace: 'nowrap',
   })
   const thC = (omit) => ({
     padding: '4px 8px', border: '1px solid #e8e8e8', fontWeight: 600, background: '#f9f9f9',
     color: omit ? '#bbb' : '#555', fontSize: 10, whiteSpace: 'nowrap', textAlign: 'right',
   })
-  const td0 = { padding: '4px 10px', border: '1px solid #f0f0f0', fontSize: 11, fontWeight: 600, color: '#222', background: '#fafafa', whiteSpace: 'nowrap' }
-  const tdV = (omit) => ({ padding: '4px 8px', border: '1px solid #f0f0f0', fontSize: 11, color: omit ? '#bbb' : '#444', textAlign: 'right', whiteSpace: 'nowrap' })
+  const td0 = { padding: '4px 10px', border: '1px solid #f0f0f0', fontSize: 13, fontWeight: 600, color: '#222', background: '#fafafa', whiteSpace: 'nowrap' }
+  const tdV = (omit) => ({ padding: '4px 8px', border: '1px solid #f0f0f0', fontSize: 13, color: omit ? '#bbb' : '#444', textAlign: 'right', whiteSpace: 'nowrap' })
   const valColor = v => {
     if (!v || v === '—') return '#bbb'
     const n = parseFloat(String(v).replace(/[,% $]/g, ''))
@@ -153,7 +153,7 @@ function GroupTable({ pinnedCol, pinnedVal, groups, dataRows }) {
   }
   return (
     <div style={{ overflowX: 'auto', border: '1px solid #e8e8e8', borderRadius: 6, marginBottom: 12 }}>
-      <table style={{ borderCollapse: 'collapse', fontSize: 11 }}>
+      <table style={{ borderCollapse: 'collapse', fontSize: 13 }}>
         <thead>
           <tr>
             <th rowSpan={2} style={{ ...thG(false), background: '#e0e0e0', verticalAlign: 'middle', minWidth: 80 }}>{pinnedCol}</th>
@@ -205,11 +205,11 @@ function GroupTable({ pinnedCol, pinnedVal, groups, dataRows }) {
 function SimpleTable({ cols, dataRows }) {
   const thStyle = (omit, frozen) => ({
     padding: '5px 10px', border: '1px solid #e0e0e0', fontWeight: 700, background: '#f5f5f5',
-    color: omit ? '#bbb' : '#333', fontSize: 11, whiteSpace: 'nowrap', textAlign: 'left',
+    color: omit ? '#bbb' : '#333', fontSize: 13, whiteSpace: 'nowrap', textAlign: 'left',
     position: frozen ? 'sticky' : 'static', left: 0, zIndex: frozen ? 1 : 0,
   })
   const tdStyle = (omit, frozen) => ({
-    padding: '4px 10px', border: '1px solid #f0f0f0', fontSize: 11, whiteSpace: 'nowrap',
+    padding: '4px 10px', border: '1px solid #f0f0f0', fontSize: 13, whiteSpace: 'nowrap',
     color: omit ? '#bbb' : '#444', background: frozen ? '#fdfdfd' : 'inherit',
     position: frozen ? 'sticky' : 'static', left: 0,
   })
@@ -221,7 +221,7 @@ function SimpleTable({ cols, dataRows }) {
   }
   return (
     <div style={{ overflowX: 'auto', border: '1px solid #e8e8e8', borderRadius: 6, marginBottom: 12 }}>
-      <table style={{ borderCollapse: 'collapse', fontSize: 11 }}>
+      <table style={{ borderCollapse: 'collapse', fontSize: 13 }}>
         <thead>
           <tr>
             {cols.map((col, i) => (
@@ -667,7 +667,7 @@ function SheetProductN() {
       <BlockTitle>統計摘要表（A1 起）</BlockTitle>
       <StatsTable headerCols={headerCols} rows={summaryRows} />
       <BlockTitle>交易明細表（摘要表後空一列）</BlockTitle>
-      <div style={{ fontWeight: 700, fontSize: 11, padding: '4px 0 6px', color: '#333' }}>交易明細</div>
+      <div style={{ fontWeight: 700, fontSize: 13, padding: '4px 0 6px', color: '#333' }}>交易明細</div>
       <SimpleTable cols={tradeCols} dataRows={tradeDataRows} />
     </div>
   )
@@ -695,8 +695,8 @@ export default function ExportPage() {
 
   return (
     <div style={{ padding: 32, maxWidth: 1200, margin: '0 auto' }}>
-      <h2 style={{ fontSize: 20, fontWeight: 700, color: 'var(--color-text)', marginBottom: 6 }}>匯出功能</h2>
-      <p style={{ color: 'var(--color-text-secondary)', marginBottom: 28, fontSize: 14 }}>
+      <h2 style={{ fontSize: 22, fontWeight: 700, color: 'var(--color-text)', marginBottom: 6 }}>匯出功能</h2>
+      <p style={{ color: 'var(--color-text-secondary)', marginBottom: 28, fontSize: 15 }}>
         XLSX 完整報告匯出規格；CSV 格式與 BTReportNew 詳見交易紀錄
       </p>
 
@@ -704,10 +704,10 @@ export default function ExportPage() {
       <div style={{ display: 'flex', gap: 16, marginBottom: 36 }}>
         {FORMATS.map(f => (
           <div key={f.fmt} style={{ ...card, flex: 1 }}>
-            <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{f.fmt}</div>
-            <div style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>{f.label}</div>
-            <div style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>{f.desc}</div>
-            {f.ref && <div style={{ marginTop: 10, fontSize: 11, color: 'var(--color-primary)', fontWeight: 600 }}>詳見 {f.ref}</div>}
+            <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{f.fmt}</div>
+            <div style={{ fontSize: 14, color: 'var(--color-text-secondary)' }}>{f.label}</div>
+            <div style={{ fontSize: 14, color: 'var(--color-text-secondary)' }}>{f.desc}</div>
+            {f.ref && <div style={{ marginTop: 10, fontSize: 14, color: 'var(--color-primary)', fontWeight: 600 }}>詳見 {f.ref}</div>}
           </div>
         ))}
       </div>
@@ -728,10 +728,10 @@ export default function ExportPage() {
                 opacity: s.dynamic ? 0.75 : 1,
                 transition: 'background 0.1s, border-color 0.1s',
               }}>
-                <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--color-text-secondary)', minWidth: 24 }}>
+                <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--color-text-secondary)', minWidth: 28 }}>
                   {s.dynamic ? '11+' : String(i + 1).padStart(2, '0')}
                 </span>
-                <span style={{ fontSize: 13, color: isActive ? 'var(--color-primary)' : 'var(--color-text)', fontStyle: s.dynamic ? 'italic' : 'normal', fontWeight: isActive ? 600 : 400 }}>
+                <span style={{ fontSize: 14, color: isActive ? 'var(--color-primary)' : 'var(--color-text)', fontStyle: s.dynamic ? 'italic' : 'normal', fontWeight: isActive ? 600 : 400 }}>
                   {s.label}
                 </span>
               </button>
@@ -742,8 +742,8 @@ export default function ExportPage() {
         <div style={{ flex: 1, minWidth: 0 }}>
           {active ? (
             <div style={{ ...card, padding: 24 }}>
-              <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 14, color: 'var(--color-text)', borderBottom: '1px solid var(--color-border)', paddingBottom: 10 }}>
-                <span style={{ color: 'var(--color-text-secondary)', fontWeight: 400, fontSize: 12, marginRight: 8 }}>
+              <div style={{ fontWeight: 700, fontSize: 17, marginBottom: 14, color: 'var(--color-text)', borderBottom: '1px solid var(--color-border)', paddingBottom: 10 }}>
+                <span style={{ color: 'var(--color-text-secondary)', fontWeight: 400, fontSize: 14, marginRight: 8 }}>
                   {active.dynamic ? '11+' : String(XLSX_SHEETS.indexOf(active) + 1).padStart(2, '0')}
                 </span>
                 {active.label}
@@ -751,7 +751,7 @@ export default function ExportPage() {
               {SHEET_PANELS[active.id]}
             </div>
           ) : (
-            <div style={{ ...card, padding: 32, minHeight: 200, textAlign: 'center', color: 'var(--color-text-secondary)', fontSize: 13, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ ...card, padding: 32, minHeight: 200, textAlign: 'center', color: 'var(--color-text-secondary)', fontSize: 15, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               選擇左側分頁以查看分頁規格
             </div>
           )}
@@ -762,5 +762,5 @@ export default function ExportPage() {
   )
 }
 
-const sTitle = { fontSize: 17, fontWeight: 700, color: 'var(--color-text)', marginBottom: 12, marginTop: 0 }
+const sTitle = { fontSize: 18, fontWeight: 700, color: 'var(--color-text)', marginBottom: 12, marginTop: 0 }
 const card = { background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 8, padding: 16 }

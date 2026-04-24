@@ -104,7 +104,7 @@ export default function TradeSettingsSection({ platform, form, onChange }) {
             style={s.select}
           >
             {BENCHMARK_INDICES.map(idx => (
-              <option key={idx} value={idx}>{idx}</option>
+              <option key={idx.name} value={idx.name}>{idx.name} ({idx.code})</option>
             ))}
           </select>
         </div>
