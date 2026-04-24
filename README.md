@@ -142,13 +142,16 @@ WorkSpace/
 ├── README.md                     ← 本文件（專案總覽）
 ├── CLAUDE.md                     ← AI 助理行為規範（Claude Code 專用）
 ├── docs/
-│   ├── modules/
+│   ├── modules/                  ← PRD 文件
 │   │   ├── 流程架構.md
 │   │   ├── 回測設定.md
 │   │   ├── 交易紀錄.md
 │   │   ├── 匯出功能.md
 │   │   ├── 介面設計.md
 │   │   └── 欄位計算.md
-│   └── field-specs/               ← UI 欄位規格（唯讀）
+│   ├── field-specs/              ← UI 欄位規格 CSV（唯讀）
+│   ├── json_output/              ← JSON 輸出格式範例（唯讀）
+│   ├── xlsx_report/              ← XLSX 匯出報告範例 CSV（唯讀）
+│   └── reference/                ← 外部參考資料（唯讀）
 └── web/                          ← 規格示意 Prototype（供閱讀者快速進入狀況）
 ```
